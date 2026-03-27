@@ -1,0 +1,11 @@
+#!/bin/sh
+# Enforce Conventional Commits format: type(scope): description
+# Types: feat, fix, docs, style, refactor, test, chore
+commit_msg=$(cat "$1")
+pattern="^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,72}$"
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ Commit message must follow Conventional Commits format."
+  echo "   Example: feat(chat): add message send button"
+  echo "   Types: feat, fix, docs, style, refactor, test, chore"
+  exit 1
+fi
