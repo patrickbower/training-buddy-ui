@@ -1,21 +1,23 @@
 import type { Run } from '@/types/domain'
 
+export const baseRun: Run = {
+  id: 'run_01',
+  athleteId: 'ath_01',
+  sessionId: 'sess_01',
+  date: '2026-03-24',
+  distanceKm: 8.2,
+  durationSeconds: 2706, // ~45 min
+  averagePacePerKm: '5:30',
+  averageHeartRate: 148,
+  maxHeartRate: 162,
+  elevationGainM: 45,
+  perceivedEffort: 3,
+  stravaActivityId: null,
+  createdAt: '2026-03-24T07:30:00Z',
+}
+
 export const seedRuns: Run[] = [
-  {
-    id: 'run_01',
-    athleteId: 'ath_01',
-    sessionId: 'sess_01',
-    date: '2026-03-24',
-    distanceKm: 8.2,
-    durationSeconds: 2706, // ~45 min
-    averagePacePerKm: '5:30',
-    averageHeartRate: 148,
-    maxHeartRate: 162,
-    elevationGainM: 45,
-    perceivedEffort: 3,
-    stravaActivityId: null,
-    createdAt: '2026-03-24T07:30:00Z',
-  },
+  baseRun,
   {
     id: 'run_02',
     athleteId: 'ath_01',
