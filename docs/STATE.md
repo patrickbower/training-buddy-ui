@@ -17,7 +17,7 @@ Example query hook pattern:
 export function useTrainingPlan(planId: string) {
   return useQuery({
     queryKey: queryKeys.trainingPlan(planId),
-    queryFn: () => api.trainingPlans.getById(planId),
+    queryFn: () => api.trainingPlans.get(planId),
   })
 }
 ```
