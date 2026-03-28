@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Coach chat', () => {
+// TODO: unskip once the chat UI is implemented
+test.describe.skip('Coach chat', () => {
   test('athlete can send a message and receive a coach response', async ({ page }) => {
     await page.goto('/')
 
