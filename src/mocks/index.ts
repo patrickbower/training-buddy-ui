@@ -1,7 +1,7 @@
 import { athleteHandlers } from './handlers/athlete'
-import { runHandlers } from './handlers/runs'
-import { trainingPlanHandlers } from './handlers/trainingPlans'
-import { conversationHandlers } from './handlers/conversation'
+import { runHandlers, resetMockState as resetRuns } from './handlers/runs'
+import { trainingPlanHandlers, resetMockState as resetPlans } from './handlers/trainingPlans'
+import { conversationHandlers, resetMockState as resetConversation } from './handlers/conversation'
 
 export const handlers = [
   ...athleteHandlers,
@@ -9,3 +9,9 @@ export const handlers = [
   ...trainingPlanHandlers,
   ...conversationHandlers,
 ]
+
+export function resetMockState() {
+  resetRuns()
+  resetPlans()
+  resetConversation()
+}

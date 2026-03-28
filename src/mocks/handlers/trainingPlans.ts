@@ -58,3 +58,7 @@ export const trainingPlanHandlers = [
     return HttpResponse.json(updatedSession)
   }),
 ]
+
+export function resetMockState() {
+  plans = [...seedTrainingPlans]
+}
