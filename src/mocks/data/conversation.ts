@@ -1,4 +1,21 @@
-import type { Conversation } from '@/types/domain'
+import type { CoachMessage, Conversation } from '@/types/domain'
+
+export const baseCoachMessage: CoachMessage = {
+  id: 'msg_01',
+  conversationId: 'conv_01',
+  role: 'coach',
+  content:
+    "Hi Alex! I've reviewed your goals and recent runs. You're building a solid base for your marathon. Ready to get started with your 12-week plan?",
+  createdAt: '2026-03-25T10:00:00Z',
+}
+
+export const baseAthleteMessage: CoachMessage = {
+  id: 'msg_02',
+  conversationId: 'conv_01',
+  role: 'athlete',
+  content: "Yes! I'm a bit nervous about the long runs. How should I pace them?",
+  createdAt: '2026-03-25T10:01:00Z',
+}
 
 export const seedConversation: Conversation = {
   id: 'conv_01',
@@ -6,21 +23,8 @@ export const seedConversation: Conversation = {
   createdAt: '2026-03-25T10:00:00Z',
   updatedAt: '2026-03-27T08:15:00Z',
   messages: [
-    {
-      id: 'msg_01',
-      conversationId: 'conv_01',
-      role: 'coach',
-      content:
-        "Hi Alex! I've reviewed your goals and recent runs. You're building a solid base for your marathon. Ready to get started with your 12-week plan?",
-      createdAt: '2026-03-25T10:00:00Z',
-    },
-    {
-      id: 'msg_02',
-      conversationId: 'conv_01',
-      role: 'athlete',
-      content: "Yes! I'm a bit nervous about the long runs. How should I pace them?",
-      createdAt: '2026-03-25T10:01:00Z',
-    },
+    baseCoachMessage,
+    baseAthleteMessage,
     {
       id: 'msg_03',
       conversationId: 'conv_01',
