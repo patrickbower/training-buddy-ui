@@ -35,3 +35,7 @@ export const runHandlers = [
     return HttpResponse.json(newRun, { status: 201 })
   }),
 ]
+
+export function resetMockState() {
+  runs = [...seedRuns]
+}

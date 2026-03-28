@@ -13,6 +13,7 @@ const coachResponses = [
 ]
 
 let responseIndex = 0
+let nextCoachResponse: string | null = null
 
 export const conversationHandlers = [
   http.get('/api/conversation', () => {
@@ -31,15 +32,23 @@ export const conversationHandlers = [
       createdAt: new Date().toISOString(),
     }
 
-    // Add coach response
+    // Add coach response — use one-shot override if set, otherwise round-robin
+    let coachContent: string
+    if (nextCoachResponse !== null) {
+      coachContent = nextCoachResponse
+      nextCoachResponse = null
+    } else {
+      coachContent = coachResponses[responseIndex % coachResponses.length]
+      responseIndex++
+    }
+
     const coachMessage: CoachMessage = {
       id: `msg_${crypto.randomUUID()}`,
       conversationId: conversation.id,
       role: 'coach',
-      content: coachResponses[responseIndex % coachResponses.length],
+      content: coachContent,
       createdAt: new Date().toISOString(),
     }
-    responseIndex++
 
     conversation = {
       ...conversation,
@@ -51,3 +60,13 @@ export const conversationHandlers = [
     return HttpResponse.json(coachMessage, { status: 201 })
   }),
 ]
+
+export function resetMockState() {
+  conversation = { ...seedConversation, messages: [...seedConversation.messages] }
+  responseIndex = 0
+  nextCoachResponse = null
+}
+
+export function setNextCoachResponse(content: string) {
+  nextCoachResponse = content
+}
