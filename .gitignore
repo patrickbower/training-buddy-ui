@@ -21,6 +21,12 @@ test-results
 .env.local
 .env.*.local
 
+# Vite dependency cache
+.vite/
+
+# Claude Code local settings
+.claude/settings.local.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
