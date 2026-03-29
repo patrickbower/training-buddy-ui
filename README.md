@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# Training Buddy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An AI-powered running coach for intermediate runners. A mobile-first chat interface where users define a single training plan and use it as shared context for all ongoing coaching conversations.
 
-Currently, two official plugins are available:
+The product is in private beta. Strava is the OAuth provider and the primary source of training data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Before You Code
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+If you are new to the project, read [docs/UX_OVERVIEW.md](docs/UX_OVERVIEW.md) first. It explains what the product is, the reasoning behind key UX decisions, the coaching session model, and what is deliberately out of scope for beta. Understanding the product intent will help you make better implementation decisions.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Commands
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev          # start dev server
+pnpm build        # production build
+pnpm typecheck    # type check
+pnpm lint         # lint
+pnpm test         # unit tests (vitest)
+pnpm test:e2e     # end-to-end tests (playwright)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Developer Docs
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Doc                                          | What it covers                                                                                 |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [docs/UX_OVERVIEW.md](docs/UX_OVERVIEW.md)   | Product intent, session model, memory architecture, coaching philosophy, safety guardrails     |
+| [docs/DOMAIN.md](docs/DOMAIN.md)             | Canonical entity names and types (`Athlete`, `TrainingPlan`, `Session`, `Run`, `Conversation`) |
+| [docs/COMPONENTS.md](docs/COMPONENTS.md)     | Component conventions                                                                          |
+| [docs/STATE.md](docs/STATE.md)               | State management patterns                                                                      |
+| [docs/TESTING.md](docs/TESTING.md)           | Testing conventions                                                                            |
+| [docs/MOCKING.md](docs/MOCKING.md)           | Mock data and handler patterns                                                                 |
+| [docs/AUTH.md](docs/AUTH.md)                 | Authentication and Strava OAuth                                                                |
+| [docs/API_CONTRACT.md](docs/API_CONTRACT.md) | API contract between frontend and backend                                                      |
+| [docs/TYPESCRIPT.md](docs/TYPESCRIPT.md)     | TypeScript conventions                                                                         |
