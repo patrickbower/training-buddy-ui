@@ -18,6 +18,7 @@ playwright-report
 test-results
 
 # Environment secrets
+.env
 .env.local
 .env.*.local
 
@@ -26,6 +27,7 @@ test-results
 
 # Claude Code local settings
 .claude/settings.local.json
+.mcp.json
 
 # Editor directories and files
 .vscode/*
@@ -37,3 +39,5 @@ test-results
 *.njsproj
 *.sln
 *.sw?
+# heroui-agents-md
+.heroui-docs/
