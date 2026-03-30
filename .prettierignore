@@ -3,3 +3,6 @@ coverage
 playwright-report
 test-results
 pnpm-lock.yaml
+.agents/
+.heroui-docs/
+public/mockServiceWorker.js
