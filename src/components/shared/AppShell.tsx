@@ -19,7 +19,11 @@ export function AppShell() {
         <Drawer.Content placement="left" className="w-55.75 max-w-55.75">
           <Drawer.Dialog aria-label="Navigation">
             <Drawer.Body className="p-0">
-              <Sidebar onMenuToggle={() => { setDrawerOpen(false); }} />
+              <Sidebar
+                onMenuToggle={() => {
+                  setDrawerOpen(false)
+                }}
+              />
             </Drawer.Body>
           </Drawer.Dialog>
         </Drawer.Content>
@@ -33,7 +37,9 @@ export function AppShell() {
             variant="ghost"
             size="sm"
             aria-label="Open menu"
-            onPress={() => { setDrawerOpen(true); }}
+            onPress={() => {
+              setDrawerOpen(true)
+            }}
           >
             <Bars width={16} height={16} />
           </Button>
