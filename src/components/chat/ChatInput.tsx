@@ -31,7 +31,9 @@ export function ChatInput({ onSend }: ChatInputProps) {
           aria-label="message"
           placeholder="Ask anything"
           value={value}
-          onChange={(e) => { setValue(e.target.value); }}
+          onChange={(e) => {
+            setValue(e.target.value)
+          }}
           onKeyDown={handleKeyDown}
           className="flex-1 text-sm text-zinc-900 placeholder:text-zinc-500 outline-none bg-transparent"
         />
