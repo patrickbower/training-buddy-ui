@@ -27,16 +27,8 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
     <div className="flex flex-col h-full gap-5 p-4">
       {/* Header */}
       <div className="flex items-center justify-between px-3 h-10.75">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <TrainingBuddyLogo />
-          <div className="flex flex-col leading-none">
-            <span className="font-extrabold text-[20px] tracking-tight text-zinc-900">
-              Training
-            </span>
-            <span className="font-extrabold text-[20px] tracking-tight text-zinc-900 ml-3">
-              Buddy
-            </span>
-          </div>
         </div>
         {onMenuToggle && (
           <Button

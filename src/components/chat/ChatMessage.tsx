@@ -1,7 +1,7 @@
 import { Avatar } from '@heroui/react'
 import { Person } from '@gravity-ui/icons'
 import type { CoachMessage } from '@/types/domain'
-import { TrainingBuddyLogo } from '@/components/shared/TrainingBuddyLogo'
+import { TrainingBuddyIcon } from '@/components/shared/TrainingBuddyIcon'
 
 interface ChatMessageProps {
   message: CoachMessage
@@ -16,7 +16,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
         <Avatar.Fallback>
           {isCoach ? (
             <span role="img" aria-label="Training Buddy">
-              <TrainingBuddyLogo />
+              <TrainingBuddyIcon />
             </span>
           ) : (
             <span role="img" aria-label="Athlete">
