@@ -25,7 +25,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
 
   return (
     <div className="flex flex-col gap-2 w-full px-3">
-      <div className="flex items-center gap-2 h-[52px] px-4 py-3 rounded-[24px] bg-white border border-[#f5f5f5] shadow-[0px_2px_4px_0px_rgba(0,0,0,0.04),0px_1px_2px_0px_rgba(0,0,0,0.06),0px_0px_1px_0px_rgba(0,0,0,0.06)]">
+      <div className="flex items-center gap-2 h-13 px-4 py-3 rounded-[24px] bg-white border border-[#f5f5f5] shadow-[0px_2px_4px_0px_rgba(0,0,0,0.04),0px_1px_2px_0px_rgba(0,0,0,0.06),0px_0px_1px_0px_rgba(0,0,0,0.06)]">
         <input
           type="text"
           aria-label="message"
