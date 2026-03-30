@@ -10,13 +10,13 @@ export function AppShell() {
   return (
     <div className="flex h-screen bg-[#f5f5f5]">
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden md:flex w-55.75 shrink-0 bg-[#f5f5f5]">
+      <aside className="hidden md:flex w-60 shrink-0 bg-[#f5f5f5]">
         <Sidebar />
       </aside>
 
       {/* Mobile drawer */}
       <Drawer.Backdrop isOpen={drawerOpen} onOpenChange={setDrawerOpen} className="md:hidden">
-        <Drawer.Content placement="left" className="w-55.75 max-w-55.75">
+        <Drawer.Content placement="left" className="w-60 max-w-60">
           <Drawer.Dialog aria-label="Navigation">
             <Drawer.Body className="p-0">
               <Sidebar
