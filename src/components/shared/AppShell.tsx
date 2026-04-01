@@ -8,9 +8,9 @@ export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-[#f5f5f5]">
+    <div className="flex h-screen bg-zinc-100">
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden md:flex w-60 shrink-0 bg-[#f5f5f5]">
+      <aside className="hidden md:flex w-60 shrink-0 bg-zinc-100">
         <Sidebar />
       </aside>
 

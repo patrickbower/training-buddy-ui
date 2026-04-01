@@ -12,7 +12,7 @@ interface SidebarProps {
 }
 
 const navItemClassName =
-  'flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-[20px] w-full cursor-pointer data-[selected=true]:bg-[#ebebec]'
+  'flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-full w-full cursor-pointer data-[selected=true]:bg-zinc-200'
 
 export function Sidebar({ onMenuToggle }: SidebarProps) {
   const navigate = useNavigate()
