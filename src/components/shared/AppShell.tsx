@@ -29,7 +29,7 @@ export function AppShell() {
         </Drawer.Content>
       </Drawer.Backdrop>
 
-      <main className="flex-1 overflow-hidden bg-white flex flex-col">
+      <main className="flex-1 overflow-y-auto bg-white flex flex-col">
         {/* Mobile header with menu toggle */}
         <div className="md:hidden flex items-center h-12 px-4 bg-white border-b border-zinc-100 shrink-0">
           <Button
@@ -44,7 +44,7 @@ export function AppShell() {
             <Bars width={16} height={16} />
           </Button>
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1">
           <Outlet />
         </div>
       </main>
