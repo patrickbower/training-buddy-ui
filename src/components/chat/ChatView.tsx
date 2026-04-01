@@ -35,7 +35,7 @@ export function ChatView() {
         )}
         <div ref={bottomRef} />
       </ol>
-      <div className="sticky bottom-0 pb-5 max-w-160 w-full mx-auto bg-white">
+      <div className="sticky bottom-0 pb-5 max-w-2xl w-full mx-auto bg-white">
         <ChatInput onSend={sendMessage} />
       </div>
     </div>
