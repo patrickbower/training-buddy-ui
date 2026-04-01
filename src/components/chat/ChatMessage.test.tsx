@@ -31,13 +31,23 @@ describe('ChatMessage', () => {
     expect(screen.getByText(/yes, let.s do it/i)).toBeInTheDocument()
   })
 
-  it('renders coach avatar for role=coach', () => {
+  it('renders a "Thought" label above coach messages', () => {
     renderWithProviders(<ChatMessage message={coachMessage} />)
-    expect(screen.getByRole('img', { name: /training buddy/i })).toBeInTheDocument()
+    expect(screen.getByText('Thought')).toBeInTheDocument()
   })
 
-  it('renders athlete avatar for role=athlete', () => {
+  it('does not render a "Thought" label for athlete messages', () => {
     renderWithProviders(<ChatMessage message={athleteMessage} />)
-    expect(screen.getByRole('img', { name: /athlete/i })).toBeInTheDocument()
+    expect(screen.queryByText('Thought')).not.toBeInTheDocument()
+  })
+
+  it('does not render an avatar for coach messages', () => {
+    renderWithProviders(<ChatMessage message={coachMessage} />)
+    expect(screen.queryByRole('img', { name: /training buddy/i })).not.toBeInTheDocument()
+  })
+
+  it('does not render an avatar for athlete messages', () => {
+    renderWithProviders(<ChatMessage message={athleteMessage} />)
+    expect(screen.queryByRole('img', { name: /athlete/i })).not.toBeInTheDocument()
   })
 })
