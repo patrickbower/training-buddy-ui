@@ -8,15 +8,15 @@ export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   return (
-    <div className="flex h-screen bg-[#f5f5f5]">
+    <div className="flex h-screen bg-zinc-100">
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden md:flex w-55.75 shrink-0 bg-[#f5f5f5]">
+      <aside className="hidden md:flex w-60 shrink-0 bg-zinc-100">
         <Sidebar />
       </aside>
 
       {/* Mobile drawer */}
       <Drawer.Backdrop isOpen={drawerOpen} onOpenChange={setDrawerOpen} className="md:hidden">
-        <Drawer.Content placement="left" className="w-55.75 max-w-55.75">
+        <Drawer.Content placement="left" className="w-60 max-w-60">
           <Drawer.Dialog aria-label="Navigation">
             <Drawer.Body className="p-0">
               <Sidebar
@@ -29,7 +29,7 @@ export function AppShell() {
         </Drawer.Content>
       </Drawer.Backdrop>
 
-      <main className="flex-1 overflow-hidden bg-white flex flex-col">
+      <main className="flex-1 overflow-y-auto bg-white flex flex-col">
         {/* Mobile header with menu toggle */}
         <div className="md:hidden flex items-center h-12 px-4 bg-white border-b border-zinc-100 shrink-0">
           <Button
@@ -44,7 +44,7 @@ export function AppShell() {
             <Bars width={16} height={16} />
           </Button>
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1">
           <Outlet />
         </div>
       </main>

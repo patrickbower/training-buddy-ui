@@ -11,8 +11,8 @@ export function SidebarNavItem({ href, icon, title, subtitle }: SidebarNavItemPr
   return (
     <Link
       to={href as '/plan'}
-      className="flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-[20px] w-full text-left no-underline"
-      activeProps={{ className: 'bg-[#ebebec]' }}
+      className="flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-full w-full text-left no-underline hover:bg-default"
+      activeProps={{ className: 'bg-zinc-200' }}
     >
       <span className="shrink-0 text-zinc-500 pt-px">{icon}</span>
       <span className="flex flex-col min-w-0">

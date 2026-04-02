@@ -25,7 +25,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
 
   return (
     <div className="flex flex-col gap-2 w-full px-3">
-      <div className="flex items-center gap-2 h-13 px-4 py-3 rounded-[24px] bg-white border border-[#f5f5f5] shadow-[0px_2px_4px_0px_rgba(0,0,0,0.04),0px_1px_2px_0px_rgba(0,0,0,0.06),0px_0px_1px_0px_rgba(0,0,0,0.06)]">
+      <div className="flex items-center gap-2 h-13 px-4 py-3 rounded-4xl bg-white border border-zinc-100 shadow-sm">
         <input
           type="text"
           aria-label="message"
@@ -35,12 +35,12 @@ export function ChatInput({ onSend }: ChatInputProps) {
             setValue(e.target.value)
           }}
           onKeyDown={handleKeyDown}
-          className="flex-1 text-sm text-zinc-900 placeholder:text-zinc-500 outline-none bg-transparent"
+          className="flex-1 text-zinc-900 placeholder:text-zinc-500 outline-none bg-transparent"
         />
         <Button
           isIconOnly
           size="sm"
-          variant="secondary"
+          variant="tertiary"
           aria-label="Send"
           onPress={handleSend}
           className="rounded-2xl shrink-0"
@@ -48,7 +48,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
           <ArrowUp width={16} height={16} />
         </Button>
       </div>
-      <p className="text-[10px] text-zinc-400 text-center">
+      <p className="text-xs text-zinc-400 text-center">
         Training Buddy is an AI model. Always verify critical information.
       </p>
     </div>

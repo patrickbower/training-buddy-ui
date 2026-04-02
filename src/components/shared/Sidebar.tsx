@@ -1,6 +1,6 @@
-import { Button, Avatar, Kbd } from '@heroui/react'
-import { Bars, Plus, Comment, FileText } from '@gravity-ui/icons'
-import { useNavigate } from '@tanstack/react-router'
+import { Button, Avatar, Kbd, ListBox } from '@heroui/react'
+import { Bars, Plus, Comment, FileLetterP } from '@gravity-ui/icons'
+import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { SidebarNavItem } from './SidebarNavItem'
 import { seedAthlete } from '@/mocks/data/athlete'
@@ -11,8 +11,16 @@ interface SidebarProps {
   onMenuToggle?: () => void
 }
 
+const navItemClassName =
+  'flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-full w-full cursor-pointer data-[selected=true]:bg-zinc-200'
+
 export function Sidebar({ onMenuToggle }: SidebarProps) {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const activeConversationId = location.pathname.startsWith('/chat/')
+    ? location.pathname.split('/').at(-1)
+    : undefined
 
   const planCreatedDate = new Date(seedTrainingPlan.createdAt).toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -27,16 +35,8 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
     <div className="flex flex-col h-full gap-5 p-4">
       {/* Header */}
       <div className="flex items-center justify-between px-3 h-10.75">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <TrainingBuddyLogo />
-          <div className="flex flex-col leading-none">
-            <span className="font-extrabold text-[20px] tracking-tight text-zinc-900">
-              Training
-            </span>
-            <span className="font-extrabold text-[20px] tracking-tight text-zinc-900 ml-3">
-              Buddy
-            </span>
-          </div>
         </div>
         {onMenuToggle && (
           <Button
@@ -55,7 +55,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
       <div className="flex flex-col flex-1 min-h-0">
         <SidebarNavItem
           href="/plan"
-          icon={<FileText width={16} height={16} />}
+          icon={<FileLetterP width={16} height={16} />}
           title={seedTrainingPlan.name}
           subtitle={`Created ${planCreatedDate}`}
         />
@@ -82,12 +82,36 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             </Kbd>
           </Button>
 
-          <SidebarNavItem
-            href={`/chat/${seedConversation.id}`}
-            icon={<Comment width={16} height={16} />}
-            title={conversationPreview}
-            subtitle={`${String(conversationMessageCount)} messages`}
-          />
+          <ListBox
+            aria-label="Conversations"
+            selectionMode="single"
+            selectedKeys={activeConversationId ? new Set([activeConversationId]) : new Set()}
+            onAction={(key) => {
+              void navigate({
+                to: '/chat/$conversationId',
+                params: { conversationId: String(key) },
+              })
+            }}
+            className="p-0 gap-0"
+          >
+            <ListBox.Item
+              id={seedConversation.id}
+              textValue={conversationPreview}
+              className={navItemClassName}
+            >
+              <span className="shrink-0 text-zinc-500 pt-px">
+                <Comment width={16} height={16} />
+              </span>
+              <span className="flex flex-col min-w-0">
+                <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
+                  {conversationPreview}
+                </span>
+                <span className="text-xs text-zinc-500 leading-snug truncate">
+                  {String(conversationMessageCount)} messages
+                </span>
+              </span>
+            </ListBox.Item>
+          </ListBox>
         </div>
       </div>
 
