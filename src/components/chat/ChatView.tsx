@@ -18,7 +18,7 @@ export function ChatView() {
         role="log"
         aria-label="Conversation"
         aria-live="polite"
-        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto"
+        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto min-h-screen"
       >
         {messages.length === 0 && !isPending ? (
           <>
