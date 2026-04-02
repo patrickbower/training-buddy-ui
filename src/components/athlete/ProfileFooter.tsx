@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Avatar, Dropdown, Label } from '@heroui/react'
+import { Avatar, Button, Dropdown, Label } from '@heroui/react'
 import type { Athlete } from '@/types/domain'
 import { SettingsModal } from './SettingsModal'
 
@@ -20,14 +20,16 @@ export function ProfileFooter({ athlete }: ProfileFooterProps) {
 
   return (
     <Dropdown>
-      <Dropdown.Trigger>
-        <button className="flex items-center gap-2 w-full" aria-label="Profile menu">
-          <Avatar size="sm">
-            <Avatar.Fallback className="text-xs">{athlete.name[0]}</Avatar.Fallback>
-          </Avatar>
-          <span className="text-xs text-zinc-500 truncate">{athlete.email}</span>
-        </button>
-      </Dropdown.Trigger>
+      <Button
+        variant="ghost"
+        aria-label="Profile menu"
+        className="flex items-center gap-2 w-full justify-start px-0 h-auto min-h-0 font-normal"
+      >
+        <Avatar size="sm">
+          <Avatar.Fallback className="text-xs">{athlete.name[0]}</Avatar.Fallback>
+        </Avatar>
+        <span className="text-xs text-zinc-500 truncate">{athlete.email}</span>
+      </Button>
       <Dropdown.Popover className="backdrop-blur-md bg-white/80">
         <Dropdown.Menu aria-label="Profile options" onAction={handleAction}>
           <Dropdown.Item id="settings" textValue="Settings">
