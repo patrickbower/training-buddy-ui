@@ -1,8 +1,9 @@
-import { Button, Avatar, Kbd, ListBox } from '@heroui/react'
+import { Button, Kbd, ListBox } from '@heroui/react'
 import { Bars, Plus, Comment, FileLetterP } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { SidebarNavItem } from './SidebarNavItem'
+import { ProfileFooter } from '@/components/athlete/ProfileFooter'
 import { seedAthlete } from '@/mocks/data/athlete'
 import { seedConversation } from '@/mocks/data/conversation'
 import { seedTrainingPlan } from '@/mocks/data/trainingPlans'
@@ -116,12 +117,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
       </div>
 
       {/* Profile footer */}
-      <div className="flex items-center gap-2 shrink-0">
-        <Avatar size="sm">
-          <Avatar.Fallback className="text-xs">{seedAthlete.name[0]}</Avatar.Fallback>
-        </Avatar>
-        <span className="text-xs text-zinc-500 truncate">{seedAthlete.email}</span>
-      </div>
+      <ProfileFooter athlete={seedAthlete} />
     </div>
   )
 }
