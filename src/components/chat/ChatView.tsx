@@ -13,12 +13,12 @@ export function ChatView() {
   }, [messages])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full overflow-y-auto">
       <ol
         role="log"
         aria-label="Conversation"
         aria-live="polite"
-        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto min-h-screen"
+        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto flex-1"
       >
         {messages.length === 0 && !isPending ? (
           <>
@@ -35,7 +35,7 @@ export function ChatView() {
         )}
         <div ref={bottomRef} />
       </ol>
-      <div className="sticky bottom-0 pb-5 max-w-2xl w-full mx-auto bg-white">
+      <div className="pb-5 max-w-2xl w-full mx-auto bg-white shrink-0">
         <ChatInput onSend={sendMessage} />
       </div>
     </div>
