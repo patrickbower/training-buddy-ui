@@ -51,7 +51,13 @@ test.describe('Auth flow', () => {
     await page.goto('/plan')
     await expect(page).toHaveURL(/\/plan/)
 
-    // Open profile menu and click logout
+    // On mobile the sidebar is inside a drawer — open it first
+    const menuToggle = page.getByRole('button', { name: /open menu/i })
+    if (await menuToggle.isVisible()) {
+      await menuToggle.click()
+    }
+
+    // Open profile dropdown and click logout
     await page.getByRole('button', { name: /profile menu/i }).click()
     await page.getByRole('menuitem', { name: /logout/i }).click()
 
