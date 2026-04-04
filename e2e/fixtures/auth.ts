@@ -5,14 +5,19 @@ import { test as base, type Page } from '@playwright/test'
  * Matches the shape Zustand `persist` middleware writes under the key 'auth'.
  */
 async function setAuthState(page: Page, email = 'athlete@test.com') {
+  // addInitScript runs on every navigation in the page context. Use a one-time
+  // flag so subsequent navigations (e.g. after logout) don't re-seed auth state.
   await page.addInitScript((storedEmail) => {
-    localStorage.setItem(
-      'auth',
-      JSON.stringify({
-        state: { isAuthenticated: true, email: storedEmail },
-        version: 0,
-      }),
-    )
+    if (!localStorage.getItem('__auth_seeded__')) {
+      localStorage.setItem(
+        'auth',
+        JSON.stringify({
+          state: { isAuthenticated: true, email: storedEmail },
+          version: 0,
+        }),
+      )
+      localStorage.setItem('__auth_seeded__', '1')
+    }
   }, email)
 }
 

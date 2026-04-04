@@ -25,6 +25,37 @@ pnpm test:e2e     # end-to-end tests (playwright)
 
 ---
 
+## Development
+
+### Mock API
+
+API calls are intercepted by [MSW](https://mswjs.io/) in development and test. The dev server starts with mocks enabled by default via `VITE_USE_MOCKS=true`.
+
+### Dummy auth
+
+The login flow is a dummy implementation — no real Strava API calls are made. Any valid-format email and any 6-digit numeric code will succeed.
+
+**To test unhappy paths**, use these magic values:
+
+| Input           | Where                   | Result                            |
+| --------------- | ----------------------- | --------------------------------- |
+| `fail@test.com` | Email field on `/login` | `400 { error: "User not found" }` |
+| `000000`        | OTP field on `/verify`  | `400 { error: "Invalid code" }`   |
+
+These are handled by MSW in `src/mocks/handlers/auth.ts`. When real Strava OAuth is wired up, only the MSW handlers and backend implementation change — the client-side flow remains the same.
+
+### Resetting auth state
+
+Auth state is persisted to `localStorage` (key: `auth`). To reset your session during development, run in the browser console:
+
+```js
+localStorage.removeItem('auth')
+```
+
+Then refresh the page.
+
+---
+
 ## Developer Docs
 
 | Doc                                          | What it covers                                                                                 |
