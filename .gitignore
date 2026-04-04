@@ -26,8 +26,12 @@ test-results
 .vite/
 
 # Claude Code local settings
-.claude/settings.local.json
+.claude/
 .mcp.json
+
+# AI tooling local state
+.agents/
+.playwright-mcp/
 
 # Editor directories and files
 .vscode/*
