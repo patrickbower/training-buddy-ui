@@ -1,10 +1,11 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures/auth'
 
 // conv_01 is the seed conversation ID from src/mocks/data/conversation.ts
 const SEED_CONVERSATION_ID = 'conv_01'
 
 test.describe('Coach chat', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, loginAs }) => {
+    await loginAs()
     await page.goto(`/chat/${SEED_CONVERSATION_ID}`)
   })
 
