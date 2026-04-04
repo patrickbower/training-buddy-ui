@@ -10,6 +10,10 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   email: null,
-  login: (email) => { set({ isAuthenticated: true, email }); },
-  logout: () => { set({ isAuthenticated: false, email: null }); },
+  login: (email) => {
+    set({ isAuthenticated: true, email })
+  },
+  logout: () => {
+    set({ isAuthenticated: false, email: null })
+  },
 }))
