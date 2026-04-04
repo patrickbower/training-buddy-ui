@@ -57,11 +57,13 @@ export default defineConfig([
   },
   {
     // Relax some rules in test files
-    files: ['src/**/*.test.{ts,tsx}', 'src/test/**/*.{ts,tsx}', 'e2e/**/*.spec.ts'],
+    files: ['src/**/*.test.{ts,tsx}', 'src/test/**/*.{ts,tsx}', 'e2e/**/*.{ts,spec.ts}'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       'react-refresh/only-export-components': 'off',
+      // Playwright fixtures use a `use` callback that ESLint mistakes for a React hook
+      'react-hooks/rules-of-hooks': 'off',
     },
   },
 ])
