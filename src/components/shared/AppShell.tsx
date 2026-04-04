@@ -44,7 +44,7 @@ export function AppShell() {
             <Bars width={16} height={16} />
           </Button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col overflow-hidden">
           <Outlet />
         </div>
       </main>
