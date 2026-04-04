@@ -1,0 +1,64 @@
+import { test, expect } from './fixtures/auth'
+
+test.describe('Auth flow', () => {
+  test('happy path: login → verify → /plan', async ({ page }) => {
+    await page.goto('/login')
+
+    // Fill in a valid email and submit
+    await page.getByRole('textbox').fill('athlete@test.com')
+    await page.getByRole('button', { name: /login using strava/i }).click()
+
+    // Should land on verify page showing the email
+    await expect(page).toHaveURL(/\/verify/)
+    await expect(page.getByText('athlete@test.com')).toBeVisible()
+
+    // Type a valid 6-digit code — InputOTP uses a hidden input
+    await page.locator('input[autocomplete]').pressSequentially('123456')
+
+    // Should redirect to /plan
+    await expect(page).toHaveURL(/\/plan/)
+  })
+
+  test('login error: fail@test.com shows error message', async ({ page }) => {
+    await page.goto('/login')
+
+    await page.getByRole('textbox').fill('fail@test.com')
+    await page.getByRole('button', { name: /login using strava/i }).click()
+
+    await expect(page.getByText('User not found')).toBeVisible()
+    await expect(page).toHaveURL(/\/login/)
+  })
+
+  test('OTP error: code 000000 shows error message', async ({ page }) => {
+    await page.goto('/login')
+    await page.getByRole('textbox').fill('athlete@test.com')
+    await page.getByRole('button', { name: /login using strava/i }).click()
+
+    await expect(page).toHaveURL(/\/verify/)
+    await page.locator('input[autocomplete]').pressSequentially('000000')
+
+    await expect(page.getByText('Invalid code')).toBeVisible()
+    await expect(page).toHaveURL(/\/verify/)
+  })
+
+  test('route guard: unauthenticated access to /plan redirects to /login', async ({ page }) => {
+    await page.goto('/plan')
+    await expect(page).toHaveURL(/\/login/)
+  })
+
+  test('logout: clears session and protects routes', async ({ page, loginAs }) => {
+    await loginAs()
+    await page.goto('/plan')
+    await expect(page).toHaveURL(/\/plan/)
+
+    // Open profile menu and click logout
+    await page.getByRole('button', { name: /profile menu/i }).click()
+    await page.getByRole('menuitem', { name: /logout/i }).click()
+
+    await expect(page).toHaveURL(/\/login/)
+
+    // Navigating to a protected route should redirect back to /login
+    await page.goto('/plan')
+    await expect(page).toHaveURL(/\/login/)
+  })
+})
