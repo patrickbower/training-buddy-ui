@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import { Avatar, Button, Dropdown, Label } from '@heroui/react'
 import type { Athlete } from '@/types/domain'
+import { useAuthStore } from '@/stores/authStore'
 import { SettingsModal } from './SettingsModal'
 
 interface ProfileFooterProps {
@@ -9,12 +11,15 @@ interface ProfileFooterProps {
 
 export function ProfileFooter({ athlete }: ProfileFooterProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const logout = useAuthStore((s) => s.logout)
+  const navigate = useNavigate()
 
   const handleAction = (key: string | number) => {
     if (key === 'settings') {
       setIsModalOpen(true)
     } else if (key === 'logout') {
-      console.log('logout')
+      logout()
+      void navigate({ to: '/login' })
     }
   }
 
