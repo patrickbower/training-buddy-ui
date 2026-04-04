@@ -51,11 +51,14 @@ test.describe('Auth flow', () => {
     await page.goto('/plan')
     await expect(page).toHaveURL(/\/plan/)
 
-    // On mobile the sidebar is inside a drawer — open it first
-    const menuToggle = page.getByRole('button', { name: /open menu/i })
-    if (await menuToggle.isVisible()) {
-      await menuToggle.click()
-    }
+    // On mobile the sidebar is inside a drawer — open it first.
+    // Use a short-timeout click + catch so desktop (no toggle) passes silently.
+    await page
+      .getByRole('button', { name: /open menu/i })
+      .click({ timeout: 5000 })
+      .catch(() => {
+        // desktop — no drawer toggle present, continue
+      })
 
     // Open profile dropdown and click logout
     await page.getByRole('button', { name: /profile menu/i }).click()
