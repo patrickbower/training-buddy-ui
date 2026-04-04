@@ -1,9 +1,11 @@
 import { athleteHandlers } from './handlers/athlete'
+import { authHandlers } from './handlers/auth'
 import { runHandlers, resetMockState as resetRuns } from './handlers/runs'
 import { trainingPlanHandlers, resetMockState as resetPlans } from './handlers/trainingPlans'
 import { conversationHandlers, resetMockState as resetConversation } from './handlers/conversation'
 
 export const handlers = [
+  ...authHandlers,
   ...athleteHandlers,
   ...runHandlers,
   ...trainingPlanHandlers,
