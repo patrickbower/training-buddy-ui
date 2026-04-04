@@ -3,6 +3,16 @@ import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest'
 import { server } from '@/mocks/server'
 import { resetMockState } from '@/mocks/index'
 
+// input-otp uses ResizeObserver and elementFromPoint — stub both for jsdom
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {}
+window.ResizeObserver = class ResizeObserver {
+  observe = noop
+  unobserve = noop
+  disconnect = noop
+}
+document.elementFromPoint = () => null
+
 // Provide a working localStorage for jsdom (not fully supported in all vitest environments)
 const localStorageMock = (() => {
   let store: Record<string, string> = {}
