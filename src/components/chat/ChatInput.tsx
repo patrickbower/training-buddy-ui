@@ -28,7 +28,7 @@ export function ChatInput({ onSend }: ChatInputProps) {
       <TextField aria-label="message" className="w-full">
         <InputGroup
           fullWidth
-          className="h-13 rounded-4xl border-zinc-100 bg-white px-4 py-3 shadow-sm"
+          className="h-13 rounded-4xl border-zinc-100 bg-white px-4 py-3 shadow-sm [&:has(input:focus)]:ring-0 [&:has(input:focus)]:shadow-md "
         >
           <InputGroup.Input
             placeholder="Ask anything"

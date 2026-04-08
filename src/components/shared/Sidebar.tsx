@@ -64,7 +64,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
           </Kbd>
         </Button>
 
-        <div className="flex flex-col gap-1 mt-1">
+        <div className="flex flex-col">
           <Button
             variant="ghost"
             size="md"

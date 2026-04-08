@@ -28,7 +28,7 @@ export function ProfileFooter({ athlete }: ProfileFooterProps) {
       <Button
         variant="ghost"
         aria-label="Profile menu"
-        className="flex items-center gap-2 w-full justify-start px-0 h-auto min-h-0 font-normal"
+        className="flex items-center gap-2 w-full justify-start px-0 h-auto min-h-0 font-normal data-[pressed=true]:transform-none"
       >
         <Avatar size="sm">
           <Avatar.Fallback className="text-xs">{athlete.name[0]}</Avatar.Fallback>
