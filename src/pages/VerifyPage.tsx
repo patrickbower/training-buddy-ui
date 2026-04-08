@@ -51,7 +51,7 @@ export function VerifyPage() {
   }
 
   return (
-    <div className="w-full max-w-xs rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
+    <div className="w-full max-w-sm rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
       {/* Header */}
       <div className="mb-3 flex flex-col gap-3">
         <Avatar size="sm">
@@ -66,33 +66,34 @@ export function VerifyPage() {
       <div className="mb-5 flex flex-col gap-3">
         <p className="text-sm text-zinc-500">We&apos;ve sent a code to {email || 'your email'}</p>
 
-        <InputOTP
-          autoFocus
-          maxLength={6}
-          pattern={REGEXP_ONLY_DIGITS}
-          variant="secondary"
-          value={code}
-          isInvalid={!!error}
-          isDisabled={isSubmitting}
-          onChange={(val) => {
-            setCode(val)
-            setError(null)
-          }}
-          onComplete={(val: string) => void handleComplete(val)}
-        >
-          <InputOTP.Group>
-            <InputOTP.Slot index={0} />
-            <InputOTP.Slot index={1} />
-            <InputOTP.Slot index={2} />
-          </InputOTP.Group>
-          <InputOTP.Separator />
-          <InputOTP.Group>
-            <InputOTP.Slot index={3} />
-            <InputOTP.Slot index={4} />
-            <InputOTP.Slot index={5} />
-          </InputOTP.Group>
-        </InputOTP>
-
+        <div className="flex self-center py-4">
+          <InputOTP
+            autoFocus
+            maxLength={6}
+            pattern={REGEXP_ONLY_DIGITS}
+            variant="primary"
+            value={code}
+            isInvalid={!!error}
+            isDisabled={isSubmitting}
+            onChange={(val) => {
+              setCode(val)
+              setError(null)
+            }}
+            onComplete={(val: string) => void handleComplete(val)}
+          >
+            <InputOTP.Group>
+              <InputOTP.Slot index={0} />
+              <InputOTP.Slot index={1} />
+              <InputOTP.Slot index={2} />
+            </InputOTP.Group>
+            <InputOTP.Separator />
+            <InputOTP.Group>
+              <InputOTP.Slot index={3} />
+              <InputOTP.Slot index={4} />
+              <InputOTP.Slot index={5} />
+            </InputOTP.Group>
+          </InputOTP>
+        </div>
         {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <div className="flex items-center gap-1 text-sm">

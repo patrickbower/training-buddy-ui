@@ -40,7 +40,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-xs rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
+    <div className="w-full max-w-sm rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
       {/* Header */}
       <div className="mb-3 flex flex-col gap-3">
         <Avatar size="sm">
@@ -55,11 +55,11 @@ export function LoginPage() {
       <Form
         id="login-form"
         onSubmit={(e) => void handleSubmit(e)}
-        className="mb-5 flex flex-col gap-3"
+        className="mb-5 flex flex-col gap-6"
       >
         <p className="text-sm text-zinc-500">Enter email you signed up with</p>
 
-        <TextField isInvalid={!!error} className="flex flex-col gap-1">
+        <TextField isInvalid={!!error} className="flex flex-col gap-3">
           <Label className="text-sm font-medium text-zinc-900">
             Email <span className="text-red-500">*</span>
           </Label>
