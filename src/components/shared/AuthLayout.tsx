@@ -1,5 +1,8 @@
 import { Outlet } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
+import { TrainingBuddyIcon } from './TrainingBuddyIcon'
+import { StravaLogo } from './StravaLogo'
+import { ArrowRightArrowLeft } from '@gravity-ui/icons'
 
 export function AuthLayout() {
   return (
@@ -11,8 +14,8 @@ export function AuthLayout() {
       />
 
       {/* Top branding */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-4 px-5 pt-10 text-center">
-        <TrainingBuddyLogo />
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-8 px-5 pt-10 text-center">
+        <TrainingBuddyLogo width={150} />
         <p className="text-xl font-semibold leading-snug text-zinc-900">
           The running coach that learns you
         </p>
@@ -28,11 +31,14 @@ export function AuthLayout() {
 
       {/* Strava trust badge */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-5 px-5 pb-5 text-center">
-        <div className="flex items-center gap-2 rounded-full bg-white px-5 py-3">
-          <span className="text-sm text-zinc-900">
-            Training Buddy connects to Strava. We&apos;ll never see or store your login details.
-          </span>
+        <div className="flex items-center gap-2 rounded-full bg-white px-5 py-3 text-zinc-400">
+          <TrainingBuddyIcon />
+          <ArrowRightArrowLeft className="size-4" />
+          <StravaLogo />
         </div>
+        <span className="text-sm text-zinc-400 max-w-80">
+          Training Buddy connects to Strava. We&apos;ll never see or store your login details.
+        </span>
       </div>
 
       {/* Footer links */}
