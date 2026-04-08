@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
-import { Avatar, Button, InputOTP, REGEXP_ONLY_DIGITS } from '@heroui/react'
+import { Avatar, Button, ErrorMessage, InputOTP, REGEXP_ONLY_DIGITS } from '@heroui/react'
 import { Person } from '@gravity-ui/icons'
 import { useAuthStore } from '@/stores/authStore'
 
@@ -67,6 +67,7 @@ export function VerifyPage() {
         <p className="text-sm text-zinc-500">We&apos;ve sent a code to {email || 'your email'}</p>
 
         <InputOTP
+          autoFocus
           maxLength={6}
           pattern={REGEXP_ONLY_DIGITS}
           variant="secondary"
@@ -92,20 +93,22 @@ export function VerifyPage() {
           </InputOTP.Group>
         </InputOTP>
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
         <div className="flex items-center gap-1 text-sm">
           <span className="text-zinc-500">Didn&apos;t receive a code?</span>
           {resent ? (
             <span className="font-medium text-zinc-900">Code resent</span>
           ) : (
-            <button
+            <Button
               type="button"
-              onClick={handleResend}
-              className="font-medium text-zinc-900 underline"
+              variant="ghost"
+              size="sm"
+              onPress={handleResend}
+              className="h-auto min-h-0 p-0 font-medium text-zinc-900 underline"
             >
               Resend
-            </button>
+            </Button>
           )}
         </div>
       </div>

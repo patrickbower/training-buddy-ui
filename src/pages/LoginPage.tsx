@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { Avatar, Button, Label } from '@heroui/react'
+import { Avatar, Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
 import { Person } from '@gravity-ui/icons'
 
 function isValidEmail(value: string) {
@@ -52,18 +52,18 @@ export function LoginPage() {
       </div>
 
       {/* Body */}
-      <form
+      <Form
         id="login-form"
         onSubmit={(e) => void handleSubmit(e)}
         className="mb-5 flex flex-col gap-3"
       >
         <p className="text-sm text-zinc-500">Enter email you signed up with</p>
 
-        <div className="flex flex-col gap-1">
-          <Label htmlFor="email" className="text-sm font-medium text-zinc-900">
+        <TextField isInvalid={!!error} className="flex flex-col gap-1">
+          <Label className="text-sm font-medium text-zinc-900">
             Email <span className="text-red-500">*</span>
           </Label>
-          <input
+          <Input
             id="email"
             type="email"
             autoComplete="email"
@@ -73,12 +73,12 @@ export function LoginPage() {
               setEmail(e.target.value)
               setError(null)
             }}
-            className="h-9 w-full rounded-xl border border-transparent bg-zinc-100 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+            fullWidth
+            variant="primary"
           />
-        </div>
-
-        {error && <p className="text-sm text-red-500">{error}</p>}
-      </form>
+          {error && <FieldError>{error}</FieldError>}
+        </TextField>
+      </Form>
 
       {/* Footer */}
       <Button
