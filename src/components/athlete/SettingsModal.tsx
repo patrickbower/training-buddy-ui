@@ -26,6 +26,7 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
             <Modal.Heading>Settings</Modal.Heading>
           </Modal.Header>
           <Modal.Body className="flex flex-col gap-4">
+            <hr />
             {/* Email row */}
             <div className="flex items-center justify-between px-4">
               <div className="flex flex-col">
@@ -37,6 +38,8 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
               </div>
             </div>
 
+            <hr />
+
             {/* Strava row */}
             <div className="flex items-center justify-between px-4">
               <div className="flex flex-col">
@@ -47,7 +50,7 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
                 <Check className="size-4 text-zinc-400" />
               </div>
             </div>
-
+            <hr />
             {/* Display preferences */}
             <Alert className="bg-zinc-50">
               <Alert.Indicator />
@@ -59,7 +62,7 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
               </Alert.Content>
               <Button
                 size="sm"
-                variant="tertiary"
+                variant="ghost"
                 className="shrink-0"
                 onPress={() => {
                   console.log('strava')
@@ -80,8 +83,8 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
               </Alert.Content>
               <Button
                 size="sm"
-                variant="primary"
-                className="shrink-0 bg-[#ff383c] border-[#ff383c]"
+                variant="ghost"
+                className="shrink-0 hover:bg-red-500 hover:text-white"
                 onPress={() => {
                   console.log('delete')
                 }}
