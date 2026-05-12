@@ -1,5 +1,5 @@
 import { Button, Kbd, ListBox } from '@heroui/react'
-import { Bars, CirclePlusFill, FileLetterP } from '@gravity-ui/icons'
+import { Bars, CirclePlusFill } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
@@ -46,24 +46,6 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
 
       {/* Nav */}
       <div className="flex flex-col flex-1 min-h-0">
-        <Button
-          variant="ghost"
-          size="md"
-          fullWidth
-          className="group justify-start gap-4 px-3"
-          onPress={() => {
-            void navigate({ to: '/plan' })
-          }}
-        >
-          <FileLetterP width={24} height={24} />
-          <span className="flex-1 text-left">Plan</span>
-          <Kbd variant="light" className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <Kbd.Abbr keyValue="shift" />
-            <Kbd.Abbr keyValue="command" />
-            <Kbd.Content>P</Kbd.Content>
-          </Kbd>
-        </Button>
-
         <div className="flex flex-col">
           <Button
             variant="ghost"

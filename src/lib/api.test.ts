@@ -106,6 +106,38 @@ describe('api.conversation', () => {
   })
 })
 
+describe('api.strava', () => {
+  it('snapshot() resolves with totalActivities, avgWeeklyKm, longestRunKm, avgPacePerKm, dataWindow', async () => {
+    const snapshot = await api.strava.snapshot()
+    expect(typeof snapshot.totalActivities).toBe('number')
+    expect(typeof snapshot.avgWeeklyKm).toBe('number')
+    expect(typeof snapshot.longestRunKm).toBe('number')
+    expect(typeof snapshot.avgPacePerKm).toBe('string')
+    expect(typeof snapshot.dataWindow).toBe('string')
+  })
+})
+
+describe('api.athlete.profile', () => {
+  it('create() sends POST and returns athlete with onboardingCompletedAt set', async () => {
+    const athlete = await api.athlete.createProfile({
+      runnerType: 'intermediate_marathoner',
+      primaryGoal: 'Run a sub-4 hour marathon',
+      goalTimeline: '2026-10-01',
+      currentInjuries: null,
+      weeklyAvailabilityDays: 4,
+      coachingStyle: 'data_driven',
+      additionalContext: null,
+    })
+    expect(athlete.onboardingCompletedAt).not.toBeNull()
+    expect(athlete.profile?.runnerType).toBe('intermediate_marathoner')
+  })
+
+  it('update() sends PATCH and returns updated profile fields', async () => {
+    const profile = await api.athlete.updateProfile({ currentInjuries: 'Sore left knee' })
+    expect(profile.currentInjuries).toBe('Sore left knee')
+  })
+})
+
 describe('ApiRequestError', () => {
   it('is thrown with status and body when the response is not ok', async () => {
     server.use(

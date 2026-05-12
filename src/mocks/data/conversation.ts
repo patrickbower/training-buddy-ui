@@ -5,7 +5,7 @@ export const baseCoachMessage: CoachMessage = {
   conversationId: 'conv_01',
   role: 'coach',
   content:
-    "Hi Alex! I've reviewed your goals and recent runs. You're building a solid base for your marathon. Ready to get started with your 12-week plan?",
+    "Welcome, Alex! Based on your onboarding, I can see you're an intermediate marathoner aiming for a sub-4 hour marathon. I've got everything I need to build a plan around your goal. Ready to get started?",
   createdAt: '2026-03-25T10:00:00Z',
 }
 

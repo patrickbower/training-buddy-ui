@@ -58,14 +58,43 @@ describe('ProfileFooter', () => {
     expect(screen.getByText('Logout')).toBeInTheDocument()
   })
 
-  it('dropdown contains Settings and Logout items', async () => {
+  it('dropdown contains Settings, Profile, and Logout items', async () => {
     const user = userEvent.setup()
     renderProfileFooter()
 
     await user.click(await screen.findByRole('button', { name: /profile menu/i }))
 
     expect(screen.getByRole('menuitem', { name: /settings/i })).toBeInTheDocument()
+    expect(screen.getByRole('menuitem', { name: /^profile$/i })).toBeInTheDocument()
     expect(screen.getByRole('menuitem', { name: /logout/i })).toBeInTheDocument()
+  })
+
+  it('Profile item appears between Settings and Logout', async () => {
+    const user = userEvent.setup()
+    renderProfileFooter()
+
+    await user.click(await screen.findByRole('button', { name: /profile menu/i }))
+
+    const items = screen.getAllByRole('menuitem')
+    const names = items.map((el) => el.textContent.trim())
+    const settingsIdx = names.findIndex((n) => /settings/i.test(n))
+    const profileIdx = names.findIndex((n) => /^profile$/i.test(n))
+    const logoutIdx = names.findIndex((n) => /logout/i.test(n))
+
+    expect(settingsIdx).toBeLessThan(profileIdx)
+    expect(profileIdx).toBeLessThan(logoutIdx)
+  })
+
+  it('clicking Profile opens the ProfileModal', async () => {
+    const user = userEvent.setup()
+    renderProfileFooter()
+
+    await user.click(await screen.findByRole('button', { name: /profile menu/i }))
+    await user.click(screen.getByRole('menuitem', { name: /^profile$/i }))
+
+    expect(screen.queryByRole('menuitem', { name: /^profile$/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(/coaching profile/i)).toBeInTheDocument()
   })
 
   it('clicking Logout clears auth state', async () => {

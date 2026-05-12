@@ -1,5 +1,7 @@
 import type {
   Athlete,
+  AthleteProfile,
+  StravaSnapshot,
   Run,
   PaginatedRuns,
   TrainingPlan,
@@ -48,10 +50,21 @@ function toQuery(params: Record<string, string | number>): string {
 }
 
 export const api = {
+  strava: {
+    snapshot: (): Promise<StravaSnapshot> => request('/strava/snapshot'),
+  },
+
   athlete: {
     get: (): Promise<Athlete> => request('/athlete'),
-    update: (data: Partial<Omit<Athlete, 'id' | 'stravaId' | 'createdAt'>>): Promise<Athlete> =>
-      request('/athlete', { method: 'PATCH', body: JSON.stringify(data) }),
+    update: (
+      data: Partial<
+        Omit<Athlete, 'id' | 'stravaId' | 'createdAt' | 'onboardingCompletedAt' | 'profile'>
+      >,
+    ): Promise<Athlete> => request('/athlete', { method: 'PATCH', body: JSON.stringify(data) }),
+    createProfile: (data: Omit<AthleteProfile, 'updatedAt'>): Promise<Athlete> =>
+      request('/athlete/profile', { method: 'POST', body: JSON.stringify(data) }),
+    updateProfile: (data: Partial<Omit<AthleteProfile, 'updatedAt'>>): Promise<AthleteProfile> =>
+      request('/athlete/profile', { method: 'PATCH', body: JSON.stringify(data) }),
   },
 
   runs: {

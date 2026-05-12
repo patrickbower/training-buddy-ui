@@ -1,7 +1,7 @@
 import { test, expect } from './fixtures/auth'
 
 test.describe('Auth flow', () => {
-  test('happy path: login → verify → /plan', async ({ page }) => {
+  test('happy path: new athlete login → verify → /onboarding', async ({ page }) => {
     await page.goto('/login')
 
     // Fill in a valid email and submit
@@ -15,8 +15,8 @@ test.describe('Auth flow', () => {
     // Type a valid 6-digit code — InputOTP uses a hidden input
     await page.locator('input[autocomplete]').pressSequentially('123456')
 
-    // Should redirect to /plan
-    await expect(page).toHaveURL(/\/plan/)
+    // New athlete (onboardingCompletedAt is null) redirects to /onboarding
+    await expect(page).toHaveURL(/\/onboarding/)
   })
 
   test('login error: fail@test.com shows error message', async ({ page }) => {
@@ -41,8 +41,8 @@ test.describe('Auth flow', () => {
     await expect(page).toHaveURL(/\/verify/)
   })
 
-  test('route guard: unauthenticated access to /plan redirects to /login', async ({ page }) => {
-    await page.goto('/plan')
+  test('route guard: unauthenticated access to /chat redirects to /login', async ({ page }) => {
+    await page.goto('/chat/conv_01')
     await expect(page).toHaveURL(/\/login/)
   })
 

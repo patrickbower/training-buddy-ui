@@ -42,27 +42,79 @@ Returns the authenticated athlete's profile.
   "stravaId": "12345678",
   "name": "Alex Runner",
   "email": "alex@example.com",
-  "avatarUrl": "https://example.com/avatar.jpg",
-  "fitnessLevel": "intermediate",
-  "weeklyMileageTarget": 40,
-  "goals": [
-    {
-      "id": "goal_01",
-      "type": "race",
-      "description": "Sub-4hr marathon",
-      "targetDate": "2026-10-01"
-    }
-  ],
+  "avatarUrl": null,
+  "onboardingCompletedAt": "2026-01-16T10:00:00Z",
+  "profile": {
+    "runnerType": "intermediate_marathoner",
+    "primaryGoal": "Run a sub-4 hour marathon",
+    "goalTimeline": "2026-10-01",
+    "currentInjuries": null,
+    "weeklyAvailabilityDays": 4,
+    "coachingStyle": "data_driven",
+    "additionalContext": null,
+    "updatedAt": "2026-01-16T10:00:00Z"
+  },
   "createdAt": "2026-01-15T09:00:00Z"
 }
 ```
 
+`onboardingCompletedAt` is `null` for athletes who have not yet completed onboarding. `profile` is `null` pre-onboarding.
+
 ### `PATCH /api/athlete`
 
-Updates athlete profile fields.
+Updates top-level athlete fields (name, email, avatarUrl).
 
-**Request body**: Partial `Athlete` (excluding `id`, `stravaId`, `createdAt`).
+**Request body**: Partial `Athlete` (excluding `id`, `stravaId`, `createdAt`, `onboardingCompletedAt`, `profile`).
 **Response `200`**: Updated `Athlete`.
+
+### `POST /api/athlete/profile`
+
+Creates the `AthleteProfile` on onboarding completion. Sets `onboardingCompletedAt` on the athlete server-side.
+
+**Request body**:
+
+```json
+{
+  "runnerType": "intermediate_marathoner",
+  "primaryGoal": "Run a sub-4 hour marathon",
+  "goalTimeline": "2026-10-01",
+  "currentInjuries": null,
+  "weeklyAvailabilityDays": 4,
+  "coachingStyle": "data_driven",
+  "additionalContext": null
+}
+```
+
+**Response `201`**: Updated `Athlete` with `onboardingCompletedAt` and `profile` populated.
+
+### `PATCH /api/athlete/profile`
+
+Updates individual fields of an existing `AthleteProfile`. Used by the Profile modal post-onboarding.
+
+**Request body**: Partial `AthleteProfile` (excluding `updatedAt`).
+**Response `200`**: Updated `AthleteProfile`.
+
+---
+
+## Strava
+
+### `GET /api/strava/snapshot`
+
+Returns computed metrics from the last 6 months of Strava activities, plus career total activity count.
+
+**Response `200`**:
+
+```json
+{
+  "totalActivities": 142,
+  "avgWeeklyKm": 38.5,
+  "longestRunKm": 32.1,
+  "avgPacePerKm": "5:28",
+  "dataWindow": "Last 6 months"
+}
+```
+
+`totalActivities` is the career total from Strava `/athlete/stats`. All other fields are computed from the 6-month activity window. `dataWindow` is a display label string.
 
 ---
 
