@@ -4,10 +4,10 @@ import type { Conversation, CoachMessage } from '@/types/domain'
 
 let conversation: Conversation = { ...seedConversation, messages: [...seedConversation.messages] }
 
-// Onboarding sequence — mirrors what the real backend returns for conv_01
+// Onboarding sequence — Q2–Q7 then synthesis (Q1 is pre-seeded in the conversation)
 const onboardingSequence: { content: string; quickReplies: string[] | null }[] = [
   {
-    content: "Great! What's your primary running goal?",
+    content: "What's your primary running goal, and when would you like to achieve it?",
     quickReplies: [
       'Sub-4hr marathon by Oct 2026',
       'Run my first 5K',
@@ -16,20 +16,28 @@ const onboardingSequence: { content: string; quickReplies: string[] | null }[] =
     ],
   },
   {
-    content: 'How many days a week can you realistically train?',
-    quickReplies: ['3 days', '4 days', '5 days', '6+ days'],
+    content: 'Do you have a specific race or event in mind?',
+    quickReplies: ['London Marathon 2026', 'Local 10K', 'No specific event'],
   },
   {
-    content: "What's your current weekly mileage?",
-    quickReplies: ['Under 20 km', '20–40 km', '40–60 km', 'Over 60 km'],
+    content: 'How many days per week can you realistically train?',
+    quickReplies: ['3 days', '4 days', '5 days', '6 days'],
   },
   {
-    content: 'Do you have any upcoming races already on the calendar?',
-    quickReplies: ['Yes, a few', 'Just one target race', 'Nothing booked yet'],
+    content: 'Any current injuries or physical constraints I should know about?',
+    quickReplies: ['None', 'Sore knee', 'Lower back pain', 'Hip issue'],
+  },
+  {
+    content: 'What coaching style works best for you?',
+    quickReplies: ['Supportive', 'Data-driven', 'Tough love', 'Balanced'],
+  },
+  {
+    content: 'Anything else I should know before we get started? (optional)',
+    quickReplies: ['Nothing else'],
   },
   {
     content:
-      "Love it. Here's what I know about you: intermediate marathoner, targeting a sub-4hr marathon by October, training 4 days a week. You can update your coaching profile anytime from the profile menu at the bottom of the sidebar. Ready to build your plan?",
+      "Here's what I know about you: intermediate marathoner, targeting a sub-4hr marathon by October, training 4 days a week, London Marathon 2026 in sight. You can update your coaching profile anytime from the profile menu at the bottom of the sidebar. Ready to build your plan?",
     quickReplies: null,
   },
 ]
