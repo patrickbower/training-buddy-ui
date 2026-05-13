@@ -16,8 +16,20 @@ const onboardingSequence: { content: string; quickReplies: string[] | null }[] =
     ],
   },
   {
+    content: 'How many days a week can you realistically train?',
+    quickReplies: ['3 days', '4 days', '5 days', '6+ days'],
+  },
+  {
+    content: "What's your current weekly mileage?",
+    quickReplies: ['Under 20 km', '20–40 km', '40–60 km', 'Over 60 km'],
+  },
+  {
+    content: 'Do you have any upcoming races already on the calendar?',
+    quickReplies: ['Yes, a few', 'Just one target race', 'Nothing booked yet'],
+  },
+  {
     content:
-      "Love it. Here's what I know about you: intermediate marathoner, targeting a sub-4hr marathon by October. You can update your coaching profile anytime from the profile menu at the bottom of the sidebar. Ready to build your plan?",
+      "Love it. Here's what I know about you: intermediate marathoner, targeting a sub-4hr marathon by October, training 4 days a week. You can update your coaching profile anytime from the profile menu at the bottom of the sidebar. Ready to build your plan?",
     quickReplies: null,
   },
 ]
