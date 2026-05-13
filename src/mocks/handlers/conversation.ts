@@ -10,6 +10,7 @@ const onboardingSequence: {
   content: string
   quickReplies: string[] | null
   card: MessageCard | null
+  complete?: boolean
 }[] = [
   {
     content: "What's your primary running goal, and when would you like to achieve it?",
@@ -55,6 +56,7 @@ const onboardingSequence: {
       body: 'Your coaching profile is saved. You can update it anytime from the profile menu in the sidebar.',
       cta: { label: "Let's build your plan →", to: '/' },
     },
+    complete: true,
   },
 ]
 
@@ -103,8 +105,9 @@ export const conversationHandlers = [
       coachContent = step.content
       coachQuickReplies = step.quickReplies
       coachCard = step.card
-      // Sequence starts at Q2 (index 2), seed covered Q1
-      coachOnboardingStep = { index: responseIndex + 2, total: TOTAL_STEPS }
+      coachOnboardingStep = step.complete
+        ? { index: TOTAL_STEPS, total: TOTAL_STEPS, complete: true }
+        : { index: responseIndex + 2, total: TOTAL_STEPS }
       responseIndex++
     } else {
       coachContent =

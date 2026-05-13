@@ -100,6 +100,16 @@ describe('ChatMessage — onboardingStep', () => {
     expect(screen.getByText('Profile · Step 3 of 7')).toBeInTheDocument()
   })
 
+  it('shows "Profile complete" when onboardingStep.complete is true', () => {
+    const msg: CoachMessage = {
+      ...coachMessage,
+      onboardingStep: { index: 7, total: 7, complete: true },
+    }
+    renderWithProviders(<ChatMessage message={msg} />)
+    expect(screen.getByText('Profile complete')).toBeInTheDocument()
+    expect(screen.queryByText(/step \d+ of \d+/i)).not.toBeInTheDocument()
+  })
+
   it('shows no label when onboardingStep is null', () => {
     renderWithProviders(<ChatMessage message={coachMessage} />)
     expect(screen.queryByText(/profile/i)).not.toBeInTheDocument()

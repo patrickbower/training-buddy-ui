@@ -14,7 +14,9 @@ export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
       <div className="flex flex-col gap-3 w-full">
         {message.onboardingStep && (
           <span className="text-xs text-zinc-400">
-            Profile · Step {message.onboardingStep.index} of {message.onboardingStep.total}
+            {message.onboardingStep.complete
+              ? 'Profile complete'
+              : `Profile · Step ${String(message.onboardingStep.index)} of ${String(message.onboardingStep.total)}`}
           </span>
         )}
         <div className="prose prose-sm prose-zinc max-w-none">

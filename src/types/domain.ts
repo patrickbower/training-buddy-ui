@@ -104,6 +104,7 @@ export type MessageRole = 'athlete' | 'coach'
 export interface OnboardingStep {
   index: number
   total: number
+  complete?: boolean
 }
 
 export interface MessageCard {

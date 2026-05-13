@@ -57,6 +57,9 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-8 px-6 max-w-md mx-auto">
+      <h1 className="text-3xl font-bold text-zinc-900 text-center">
+        Nice work getting here {snapshot.athleteFirstName}
+      </h1>
       <div className="flex gap-3 w-full">
         <MetricCard
           label="Total Runs"
