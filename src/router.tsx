@@ -25,14 +25,9 @@ const appRoute = createRoute({
   id: 'app',
   component: AppShell,
   beforeLoad: () => {
-    const { isAuthenticated, onboardingCompletedAt } = useAuthStore.getState()
-    if (!isAuthenticated) {
+    if (!useAuthStore.getState().isAuthenticated) {
       // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({ to: '/login' })
-    }
-    if (onboardingCompletedAt === null) {
-      // eslint-disable-next-line @typescript-eslint/only-throw-error
-      throw redirect({ to: '/onboarding' })
     }
   },
 })
