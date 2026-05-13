@@ -38,6 +38,11 @@ export function ChatView() {
             </li>
           ))
         )}
+        {isPending && (
+          <li>
+            <span className="text-xs text-zinc-400">Thinking…</span>
+          </li>
+        )}
         <div ref={bottomRef} />
       </ol>
       <div className="pb-5 max-w-2xl w-full mx-auto bg-white shrink-0">

@@ -38,14 +38,10 @@ describe('ChatMessage', () => {
     expect(screen.getByText(/yes, let.s do it/i)).toBeInTheDocument()
   })
 
-  it('renders a "Training Buddy" label above coach messages', () => {
+  it('does not render a label on settled coach messages', () => {
     renderWithProviders(<ChatMessage message={coachMessage} />)
-    expect(screen.getByText('Training Buddy')).toBeInTheDocument()
-  })
-
-  it('does not render a "Training Buddy" label for athlete messages', () => {
-    renderWithProviders(<ChatMessage message={athleteMessage} />)
     expect(screen.queryByText('Training Buddy')).not.toBeInTheDocument()
+    expect(screen.queryByText(/profile/i)).not.toBeInTheDocument()
   })
 
   it('renders markdown bold as strong text', () => {
@@ -95,18 +91,18 @@ describe('ChatMessage — quickReplies', () => {
 })
 
 describe('ChatMessage — onboardingStep', () => {
-  it('shows step indicator when onboardingStep is set', () => {
+  it('shows "Profile · Step X of Y" label when onboardingStep is set', () => {
     const msg: CoachMessage = {
       ...coachMessage,
       onboardingStep: { index: 3, total: 7 },
     }
     renderWithProviders(<ChatMessage message={msg} />)
-    expect(screen.getByText('Step 3 of 7')).toBeInTheDocument()
+    expect(screen.getByText('Profile · Step 3 of 7')).toBeInTheDocument()
   })
 
-  it('does not show step indicator when onboardingStep is null', () => {
+  it('shows no label when onboardingStep is null', () => {
     renderWithProviders(<ChatMessage message={coachMessage} />)
-    expect(screen.queryByText(/step \d+ of \d+/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/profile/i)).not.toBeInTheDocument()
   })
 })
 

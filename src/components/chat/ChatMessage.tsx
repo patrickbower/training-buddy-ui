@@ -12,14 +12,11 @@ export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
   if (message.role === 'coach') {
     return (
       <div className="flex flex-col gap-3 w-full">
-        <div className="flex items-baseline gap-3">
-          <span className="text-xs text-zinc-400">Training Buddy</span>
-          {message.onboardingStep && (
-            <span className="text-xs text-zinc-300">
-              Step {message.onboardingStep.index} of {message.onboardingStep.total}
-            </span>
-          )}
-        </div>
+        {message.onboardingStep && (
+          <span className="text-xs text-zinc-400">
+            Profile · Step {message.onboardingStep.index} of {message.onboardingStep.total}
+          </span>
+        )}
         <div className="prose prose-sm prose-zinc max-w-none">
           <Markdown>{message.content}</Markdown>
         </div>

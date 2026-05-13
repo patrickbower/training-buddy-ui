@@ -122,3 +122,48 @@ describe('ChatView — quickReplies', () => {
     })
   })
 })
+
+describe('ChatView — pending state', () => {
+  it('shows "Thinking…" while a message is being sent', async () => {
+    const user = userEvent.setup()
+
+    server.use(
+      http.get('/api/conversation', () => HttpResponse.json(conversationWithChipsLast)),
+      http.post('/api/conversation/messages', async () => {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        return HttpResponse.json({})
+      }),
+    )
+
+    renderWithProviders(<ChatView />)
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Yes' })).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Yes' }))
+
+    expect(screen.getByText('Thinking…')).toBeInTheDocument()
+  })
+
+  it('removes "Thinking…" once the reply arrives', async () => {
+    const user = userEvent.setup()
+
+    server.use(
+      http.get('/api/conversation', () => HttpResponse.json(conversationWithChipsLast)),
+      http.post('/api/conversation/messages', () => HttpResponse.json({})),
+    )
+
+    renderWithProviders(<ChatView />)
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Yes' })).toBeInTheDocument()
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Yes' }))
+
+    await waitFor(() => {
+      expect(screen.queryByText('Thinking…')).not.toBeInTheDocument()
+    })
+  })
+})
