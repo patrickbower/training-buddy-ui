@@ -4,8 +4,26 @@ import type { Conversation, CoachMessage } from '@/types/domain'
 
 let conversation: Conversation = { ...seedConversation, messages: [...seedConversation.messages] }
 
-// Canned coach responses for the mock
-const coachResponses = [
+// Onboarding sequence — mirrors what the real backend returns for conv_01
+const onboardingSequence: { content: string; quickReplies: string[] | null }[] = [
+  {
+    content: "Great! What's your primary running goal?",
+    quickReplies: [
+      'Sub-4hr marathon by Oct 2026',
+      'Run my first 5K',
+      'Run consistently 4x/week',
+      'Complete an ultra',
+    ],
+  },
+  {
+    content:
+      "Love it. Here's what I know about you: intermediate marathoner, targeting a sub-4hr marathon by October. You can update your coaching profile anytime from the profile menu at the bottom of the sidebar. Ready to build your plan?",
+    quickReplies: null,
+  },
+]
+
+// Fallback canned responses used after onboarding sequence is exhausted
+const cannedResponses = [
   "Great question! Based on your recent training, I'd recommend keeping today's effort easy — around 70% max heart rate. Listen to your body and don't push if you're feeling fatigued.",
   "You're making excellent progress. Consistency is the key to marathon success, and you're nailing it. Keep up the fantastic work!",
   "That's something we should definitely factor into your plan. Rest and recovery are just as important as the runs themselves.",
@@ -33,13 +51,21 @@ export const conversationHandlers = [
       createdAt: new Date().toISOString(),
     }
 
-    // Add coach response — use one-shot override if set, otherwise round-robin
+    // Add coach response — one-shot override → onboarding sequence → canned fallback
     let coachContent: string
+    let coachQuickReplies: string[] | null = null
+
     if (nextCoachResponse !== null) {
       coachContent = nextCoachResponse
       nextCoachResponse = null
+    } else if (responseIndex < onboardingSequence.length) {
+      const step = onboardingSequence[responseIndex]
+      coachContent = step.content
+      coachQuickReplies = step.quickReplies
+      responseIndex++
     } else {
-      coachContent = coachResponses[responseIndex % coachResponses.length]
+      coachContent =
+        cannedResponses[(responseIndex - onboardingSequence.length) % cannedResponses.length]
       responseIndex++
     }
 
@@ -48,7 +74,7 @@ export const conversationHandlers = [
       conversationId: conversation.id,
       role: 'coach',
       content: coachContent,
-      quickReplies: null,
+      quickReplies: coachQuickReplies,
       createdAt: new Date().toISOString(),
     }
 
