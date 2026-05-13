@@ -16,16 +16,6 @@ export const athleteHandlers = [
     return HttpResponse.json(seedStravaSnapshot)
   }),
 
-  http.post('/api/athlete/profile', async ({ request }) => {
-    const body = (await request.json()) as object
-    const updated = {
-      ...seedAthlete,
-      onboardingCompletedAt: new Date().toISOString(),
-      profile: { ...seedAthlete.profile, ...body, updatedAt: new Date().toISOString() },
-    }
-    return HttpResponse.json(updated, { status: 201 })
-  }),
-
   http.patch('/api/athlete/profile', async ({ request }) => {
     const body = (await request.json()) as object
     const updatedProfile = {

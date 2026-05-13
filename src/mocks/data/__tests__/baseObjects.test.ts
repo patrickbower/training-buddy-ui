@@ -52,6 +52,16 @@ it('baseCoachMessage and baseAthleteMessage satisfy CoachMessage with correct ro
   expect(seedConversation.messages[0]).toBe(baseCoachMessage)
 })
 
+it('CoachMessage carries quickReplies — string[] on onboarding prompts, null elsewhere', () => {
+  expect(Array.isArray(baseCoachMessage.quickReplies)).toBe(true)
+  expect(baseCoachMessage.quickReplies?.length).toBeGreaterThan(0)
+
+  expect(baseAthleteMessage.quickReplies).toBeNull()
+
+  const withChips = seedConversation.messages.filter((m) => Array.isArray(m.quickReplies))
+  expect(withChips.length).toBeGreaterThan(0)
+})
+
 it('makeTrainingPlan returns a TrainingPlan with defaults and applies overrides', () => {
   const plan: TrainingPlan = makeTrainingPlan()
   expect(plan.id).toBe('plan_01')

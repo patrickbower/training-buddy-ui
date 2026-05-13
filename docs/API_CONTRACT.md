@@ -203,6 +203,21 @@ Returns the athlete's conversation history with the coach.
 
 **Response `200`**: `Conversation`
 
+`CoachMessage` shape:
+
+```json
+{
+  "id": "msg_01",
+  "conversationId": "conv_01",
+  "role": "coach",
+  "content": "Based on your Strava history, I'd classify you as an intermediate marathoner. Does that feel right?",
+  "quickReplies": ["Yes, that sounds right", "Beginner runner", "Speed focused"],
+  "createdAt": "2026-01-16T10:00:00Z"
+}
+```
+
+`quickReplies` is `string[] | null`. When non-null, the frontend renders quick-reply chips on that message. The field is used during onboarding but may appear on any coach message where a constrained response is appropriate.
+
 ### `POST /api/conversation/messages`
 
 Sends a new message from the athlete. The coach response is streamed via Server-Sent Events.
@@ -213,7 +228,7 @@ Sends a new message from the athlete. The coach response is streamed via Server-
 { "content": "How far should I run today?" }
 ```
 
-**Response**: `text/event-stream` — each event is a partial `CoachMessage.content` string. Final event is `[DONE]`.
+**Response**: `text/event-stream` — each event is a partial `CoachMessage.content` string. Final event is `[DONE]`. The completed `CoachMessage` (including `quickReplies`) is available via `GET /api/conversation` once the stream closes.
 
 ---
 

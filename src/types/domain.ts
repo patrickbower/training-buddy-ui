@@ -105,6 +105,7 @@ export interface CoachMessage {
   conversationId: string
   role: MessageRole
   content: string
+  quickReplies: string[] | null
   createdAt: string
 }
 

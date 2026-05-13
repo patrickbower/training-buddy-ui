@@ -61,8 +61,6 @@ export const api = {
         Omit<Athlete, 'id' | 'stravaId' | 'createdAt' | 'onboardingCompletedAt' | 'profile'>
       >,
     ): Promise<Athlete> => request('/athlete', { method: 'PATCH', body: JSON.stringify(data) }),
-    createProfile: (data: Omit<AthleteProfile, 'updatedAt'>): Promise<Athlete> =>
-      request('/athlete/profile', { method: 'POST', body: JSON.stringify(data) }),
     updateProfile: (data: Partial<Omit<AthleteProfile, 'updatedAt'>>): Promise<AthleteProfile> =>
       request('/athlete/profile', { method: 'PATCH', body: JSON.stringify(data) }),
   },
