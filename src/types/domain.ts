@@ -100,12 +100,25 @@ export interface Run {
 
 export type MessageRole = 'athlete' | 'coach'
 
+export interface OnboardingStep {
+  index: number
+  total: number
+}
+
+export interface MessageCard {
+  title: string
+  body: string
+  cta?: { label: string; to: string }
+}
+
 export interface CoachMessage {
   id: string
   conversationId: string
   role: MessageRole
   content: string
   quickReplies: string[] | null
+  onboardingStep: OnboardingStep | null
+  card: MessageCard | null
   createdAt: string
 }
 

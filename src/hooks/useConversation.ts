@@ -32,6 +32,8 @@ export function useConversation(): UseConversationResult {
         role: 'athlete',
         content,
         quickReplies: null,
+        onboardingStep: null,
+        card: null,
         createdAt: new Date().toISOString(),
       }
 

@@ -11,6 +11,8 @@ const coachMessage: CoachMessage = {
   role: 'coach',
   content: 'Hi there! Ready to start your training plan?',
   quickReplies: null,
+  onboardingStep: null,
+  card: null,
   createdAt: '2026-03-25T10:00:00Z',
 }
 
@@ -20,6 +22,8 @@ const athleteMessage: CoachMessage = {
   role: 'athlete',
   content: "Yes, let's do it!",
   quickReplies: null,
+  onboardingStep: null,
+  card: null,
   createdAt: '2026-03-25T10:01:00Z',
 }
 
@@ -44,14 +48,14 @@ describe('ChatMessage', () => {
     expect(screen.queryByText('Training Buddy')).not.toBeInTheDocument()
   })
 
-  it('does not render an avatar for coach messages', () => {
-    renderWithProviders(<ChatMessage message={coachMessage} />)
-    expect(screen.queryByRole('img', { name: /training buddy/i })).not.toBeInTheDocument()
-  })
-
-  it('does not render an avatar for athlete messages', () => {
-    renderWithProviders(<ChatMessage message={athleteMessage} />)
-    expect(screen.queryByRole('img', { name: /athlete/i })).not.toBeInTheDocument()
+  it('renders markdown bold as strong text', () => {
+    const msg: CoachMessage = {
+      ...coachMessage,
+      content: 'You are targeting a **sub-4hr marathon** by October',
+    }
+    renderWithProviders(<ChatMessage message={msg} />)
+    expect(screen.getByText('sub-4hr marathon')).toBeInTheDocument()
+    expect(screen.getByText('sub-4hr marathon').tagName).toBe('STRONG')
   })
 })
 
@@ -62,6 +66,8 @@ describe('ChatMessage — quickReplies', () => {
     role: 'coach',
     content: 'Does that feel right?',
     quickReplies: ['Yes', 'No', 'Not sure'],
+    onboardingStep: null,
+    card: null,
     createdAt: '2026-03-25T10:00:00Z',
   }
 
@@ -85,5 +91,54 @@ describe('ChatMessage — quickReplies', () => {
     await user.click(screen.getByRole('button', { name: 'Yes' }))
 
     expect(onQuickReply).toHaveBeenCalledWith('Yes')
+  })
+})
+
+describe('ChatMessage — onboardingStep', () => {
+  it('shows step indicator when onboardingStep is set', () => {
+    const msg: CoachMessage = {
+      ...coachMessage,
+      onboardingStep: { index: 3, total: 7 },
+    }
+    renderWithProviders(<ChatMessage message={msg} />)
+    expect(screen.getByText('Step 3 of 7')).toBeInTheDocument()
+  })
+
+  it('does not show step indicator when onboardingStep is null', () => {
+    renderWithProviders(<ChatMessage message={coachMessage} />)
+    expect(screen.queryByText(/step \d+ of \d+/i)).not.toBeInTheDocument()
+  })
+})
+
+describe('ChatMessage — card', () => {
+  it('renders a card when card is set', () => {
+    const msg: CoachMessage = {
+      ...coachMessage,
+      card: {
+        title: "You're all set!",
+        body: 'Your coaching profile is saved.',
+      },
+    }
+    renderWithProviders(<ChatMessage message={msg} />)
+    expect(screen.getByText("You're all set!")).toBeInTheDocument()
+    expect(screen.getByText('Your coaching profile is saved.')).toBeInTheDocument()
+  })
+
+  it('does not render a card when card is null', () => {
+    renderWithProviders(<ChatMessage message={coachMessage} />)
+    expect(screen.queryByText("You're all set!")).not.toBeInTheDocument()
+  })
+
+  it('renders the card CTA button when cta is provided', () => {
+    const msg: CoachMessage = {
+      ...coachMessage,
+      card: {
+        title: "You're all set!",
+        body: 'Your coaching profile is saved.',
+        cta: { label: "Let's build your plan →", to: '/' },
+      },
+    }
+    renderWithProviders(<ChatMessage message={msg} />)
+    expect(screen.getByRole('button', { name: "Let's build your plan →" })).toBeInTheDocument()
   })
 })

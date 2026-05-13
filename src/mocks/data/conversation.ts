@@ -14,6 +14,8 @@ export const baseCoachMessage: CoachMessage = {
     'Comeback runner',
     'Experienced ultra',
   ],
+  onboardingStep: { index: 1, total: 7 },
+  card: null,
   createdAt: '2026-03-25T10:00:00Z',
 }
 
@@ -23,6 +25,8 @@ export const baseAthleteMessage: CoachMessage = {
   role: 'athlete',
   content: 'Yes, that sounds right',
   quickReplies: null,
+  onboardingStep: null,
+  card: null,
   createdAt: '2026-03-25T10:01:00Z',
 }
 
