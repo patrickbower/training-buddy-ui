@@ -10,7 +10,7 @@ export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
   if (message.role === 'coach') {
     return (
       <div className="flex flex-col gap-3 w-full">
-        <span className="text-xs text-zinc-400">Thought</span>
+        <span className="text-xs text-zinc-400">Training Buddy</span>
         <p className="text-zinc-900 leading-relaxed">{message.content}</p>
         {message.quickReplies && onQuickReply && (
           <div className="flex flex-wrap gap-2">

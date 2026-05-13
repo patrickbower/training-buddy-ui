@@ -34,14 +34,14 @@ describe('ChatMessage', () => {
     expect(screen.getByText(/yes, let.s do it/i)).toBeInTheDocument()
   })
 
-  it('renders a "Thought" label above coach messages', () => {
+  it('renders a "Training Buddy" label above coach messages', () => {
     renderWithProviders(<ChatMessage message={coachMessage} />)
-    expect(screen.getByText('Thought')).toBeInTheDocument()
+    expect(screen.getByText('Training Buddy')).toBeInTheDocument()
   })
 
-  it('does not render a "Thought" label for athlete messages', () => {
+  it('does not render a "Training Buddy" label for athlete messages', () => {
     renderWithProviders(<ChatMessage message={athleteMessage} />)
-    expect(screen.queryByText('Thought')).not.toBeInTheDocument()
+    expect(screen.queryByText('Training Buddy')).not.toBeInTheDocument()
   })
 
   it('does not render an avatar for coach messages', () => {
