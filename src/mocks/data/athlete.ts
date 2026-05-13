@@ -32,6 +32,7 @@ export const seedNewAthlete: Athlete = {
 }
 
 export const seedStravaSnapshot: StravaSnapshot = {
+  athleteFirstName: 'Alex',
   totalActivities: 142,
   avgWeeklyKm: 38.5,
   longestRunKm: 32.1,

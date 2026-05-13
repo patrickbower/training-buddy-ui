@@ -36,6 +36,7 @@ export interface Athlete {
 }
 
 export interface StravaSnapshot {
+  athleteFirstName: string
   totalActivities: number
   avgWeeklyKm: number
   longestRunKm: number
