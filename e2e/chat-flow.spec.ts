@@ -13,7 +13,9 @@ test.describe('Coach chat', () => {
     const log = page.getByRole('log', { name: /conversation/i })
     await expect(log).toBeVisible()
     // First message is from the coach — check it contains expected seed text
-    await expect(log).toContainText("Hi Alex! I've reviewed your goals")
+    await expect(log).toContainText(
+      "Based on your Strava history, I'd classify you as an intermediate marathoner",
+    )
   })
 
   test('athlete can send a message and it appears in the conversation', async ({ page }) => {

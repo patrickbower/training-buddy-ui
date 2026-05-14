@@ -1,10 +1,10 @@
 import { test, expect } from './fixtures/auth'
 
 test.describe('Onboarding flow', () => {
-  test('new athlete is redirected to /onboarding after login', async ({ page, loginAs }) => {
+  test('new athlete lands in chat where onboarding takes place', async ({ page, loginAs }) => {
     await loginAs({ onboardingCompletedAt: null })
     await page.goto('/')
-    await expect(page).toHaveURL(/\/onboarding/)
+    await expect(page).toHaveURL(/\/chat\//)
   })
 
   test('returning athlete skips onboarding and lands in chat', async ({ page, loginAs }) => {
@@ -23,51 +23,46 @@ test.describe('Onboarding flow', () => {
     await expect(page.getByRole('button', { name: /let's go/i })).toBeVisible()
   })
 
-  test('critical path: new athlete completes all 8 steps and lands in chat', async ({
+  test('critical path: new athlete completes all 7 onboarding steps in chat', async ({
     page,
     loginAs,
   }) => {
     await loginAs({ onboardingCompletedAt: null })
     await page.goto('/onboarding')
 
-    // Welcome screen — click Let's Go
+    // Welcome screen — click Let's Go to enter chat
     await page.getByRole('button', { name: /let's go/i }).click()
+    await expect(page).toHaveURL(/\/chat\//)
 
-    // Step 1 — runner type confirmation
-    await expect(page.getByText(/Step 1\/8/)).toBeVisible()
+    // Step 1 — runner type (seeded in conversation)
+    await expect(page.getByText(/Profile · Step 1 of 7/)).toBeVisible()
     await page.getByRole('button', { name: /yes, that sounds right/i }).click()
 
     // Step 2 — primary goal
-    await expect(page.getByText(/Step 2\/8/)).toBeVisible()
+    await expect(page.getByText(/Profile · Step 2 of 7/)).toBeVisible()
     await page.getByRole('button', { name: /sub-4hr marathon/i }).click()
 
-    // Step 3 — target race (skippable)
-    await expect(page.getByText(/Step 3\/8/)).toBeVisible()
-    await page.getByText(/skip this step/i).click()
+    // Step 3 — target race
+    await expect(page.getByText(/Profile · Step 3 of 7/)).toBeVisible()
+    await page.getByRole('button', { name: /london marathon/i }).click()
 
     // Step 4 — weekly availability
-    await expect(page.getByText(/Step 4\/8/)).toBeVisible()
+    await expect(page.getByText(/Profile · Step 4 of 7/)).toBeVisible()
     await page.getByRole('button', { name: /4 days/i }).click()
 
     // Step 5 — injuries
-    await expect(page.getByText(/Step 5\/8/)).toBeVisible()
+    await expect(page.getByText(/Profile · Step 5 of 7/)).toBeVisible()
     await page.getByRole('button', { name: /^none$/i }).click()
 
     // Step 6 — coaching style
-    await expect(page.getByText(/Step 6\/8/)).toBeVisible()
+    await expect(page.getByText(/Profile · Step 6 of 7/)).toBeVisible()
     await page.getByRole('button', { name: /data-driven/i }).click()
 
-    // Step 7 — catch-all (skippable)
-    await expect(page.getByText(/Step 7\/8/)).toBeVisible()
-    await page.getByText(/skip this step/i).click()
+    // Step 7 — catch-all
+    await expect(page.getByText(/Profile · Step 7 of 7/)).toBeVisible()
+    await page.getByRole('button', { name: /nothing else/i }).click()
 
-    // Step 8 — summary review
-    await expect(page.getByText(/Step 8\/8/)).toBeVisible()
-    await expect(page.getByText(/looks right/i)).toBeVisible()
-    await page.getByRole('button', { name: /looks good/i }).click()
-
-    // Should land in chat with a coach opening message
-    await expect(page).toHaveURL(/\/chat\//)
-    await expect(page.getByText(/onboarding/i)).toBeVisible()
+    // Synthesis — profile complete
+    await expect(page.getByText(/Profile complete/i)).toBeVisible()
   })
 })
