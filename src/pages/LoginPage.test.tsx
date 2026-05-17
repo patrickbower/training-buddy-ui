@@ -39,7 +39,7 @@ function renderLoginPage() {
 describe('LoginPage', () => {
   it('submit button is disabled when email is empty', async () => {
     renderLoginPage()
-    const button = await screen.findByRole('button', { name: /login using strava/i })
+    const button = await screen.findByRole('button', { name: /connect strava/i })
     expect(button).toBeDisabled()
   })
 
@@ -48,7 +48,7 @@ describe('LoginPage', () => {
     renderLoginPage()
     const input = await screen.findByRole('textbox')
     await user.type(input, 'notanemail')
-    expect(screen.getByRole('button', { name: /login using strava/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /connect strava/i })).toBeDisabled()
   })
 
   it('submit button is enabled when a valid email is entered', async () => {
@@ -56,7 +56,7 @@ describe('LoginPage', () => {
     renderLoginPage()
     const input = await screen.findByRole('textbox')
     await user.type(input, 'athlete@test.com')
-    expect(screen.getByRole('button', { name: /login using strava/i })).not.toBeDisabled()
+    expect(screen.getByRole('button', { name: /connect strava/i })).not.toBeDisabled()
   })
 
   it('shows an error message when the API returns 400', async () => {
@@ -64,7 +64,7 @@ describe('LoginPage', () => {
     renderLoginPage()
     const input = await screen.findByRole('textbox')
     await user.type(input, 'fail@test.com')
-    await user.click(screen.getByRole('button', { name: /login using strava/i }))
+    await user.click(screen.getByRole('button', { name: /connect strava/i }))
     await waitFor(() => {
       expect(screen.getByText('User not found')).toBeInTheDocument()
     })
