@@ -19,13 +19,13 @@ function renderOnboardingPage() {
     path: '/onboarding',
     component: OnboardingPage,
   })
-  const chatRoute = createRoute({
+  const onboardingChatRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: '/chat/$conversationId',
-    component: () => <div>Chat page</div>,
+    path: '/onboarding/chat',
+    component: () => <div>Onboarding chat page</div>,
   })
   const router = createRouter({
-    routeTree: rootRoute.addChildren([route, chatRoute]),
+    routeTree: rootRoute.addChildren([route, onboardingChatRoute]),
     history: createMemoryHistory({ initialEntries: ['/onboarding'] }),
   })
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
@@ -60,12 +60,12 @@ describe('OnboardingPage — welcome screen', () => {
     expect(cta).toBeInTheDocument()
   })
 
-  it("clicking Let's Go navigates to /chat/conv_01", async () => {
+  it("clicking Let's Go navigates to /onboarding/chat", async () => {
     const user = userEvent.setup()
     renderOnboardingPage()
 
     await user.click(await screen.findByRole('button', { name: /let's go/i }))
 
-    expect(await screen.findByText('Chat page')).toBeInTheDocument()
+    expect(await screen.findByText('Onboarding chat page')).toBeInTheDocument()
   })
 })

@@ -3,56 +3,47 @@ import { Outlet } from '@tanstack/react-router'
 import { Drawer, Button } from '@heroui/react'
 import { Bars } from '@gravity-ui/icons'
 import { Sidebar } from './Sidebar'
-import { useAuthStore } from '@/stores/authStore'
 
 export function AppShell() {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const onboardingCompletedAt = useAuthStore((s) => s.onboardingCompletedAt)
-  const showSidebar = onboardingCompletedAt !== null
 
   return (
     <div className="flex h-screen bg-zinc-100">
-      {/* Desktop sidebar — hidden on mobile and during onboarding */}
-      {showSidebar && (
-        <aside className="hidden md:flex w-60 shrink-0 bg-zinc-100">
-          <Sidebar />
-        </aside>
-      )}
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-60 shrink-0 bg-zinc-100">
+        <Sidebar />
+      </aside>
 
-      {/* Mobile drawer — hidden during onboarding */}
-      {showSidebar && (
-        <Drawer.Backdrop isOpen={drawerOpen} onOpenChange={setDrawerOpen} className="md:hidden">
-          <Drawer.Content placement="left" className="w-60 max-w-60">
-            <Drawer.Dialog aria-label="Navigation">
-              <Drawer.Body className="p-0">
-                <Sidebar
-                  onMenuToggle={() => {
-                    setDrawerOpen(false)
-                  }}
-                />
-              </Drawer.Body>
-            </Drawer.Dialog>
-          </Drawer.Content>
-        </Drawer.Backdrop>
-      )}
+      {/* Mobile drawer */}
+      <Drawer.Backdrop isOpen={drawerOpen} onOpenChange={setDrawerOpen} className="md:hidden">
+        <Drawer.Content placement="left" className="w-60 max-w-60">
+          <Drawer.Dialog aria-label="Navigation">
+            <Drawer.Body className="p-0">
+              <Sidebar
+                onMenuToggle={() => {
+                  setDrawerOpen(false)
+                }}
+              />
+            </Drawer.Body>
+          </Drawer.Dialog>
+        </Drawer.Content>
+      </Drawer.Backdrop>
 
       <main className="flex-1 overflow-y-auto bg-white flex flex-col">
-        {/* Mobile header with menu toggle — hidden during onboarding */}
-        {showSidebar && (
-          <div className="md:hidden flex items-center h-12 px-4 bg-white border-b border-zinc-100 shrink-0">
-            <Button
-              isIconOnly
-              variant="ghost"
-              size="sm"
-              aria-label="Open menu"
-              onPress={() => {
-                setDrawerOpen(true)
-              }}
-            >
-              <Bars width={16} height={16} />
-            </Button>
-          </div>
-        )}
+        {/* Mobile header with menu toggle */}
+        <div className="md:hidden flex items-center h-12 px-4 bg-white border-b border-zinc-100 shrink-0">
+          <Button
+            isIconOnly
+            variant="ghost"
+            size="sm"
+            aria-label="Open menu"
+            onPress={() => {
+              setDrawerOpen(true)
+            }}
+          >
+            <Bars width={16} height={16} />
+          </Button>
+        </div>
         <div className="flex-1 flex flex-col overflow-hidden">
           <Outlet />
         </div>

@@ -5,15 +5,14 @@ import runnerBg from '@/assets/runner-bg.jpg'
 
 export function AuthLayout() {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen">
       {/* Left panel */}
-      <div className="flex w-full flex-col bg-white md:w-1/2">
-        <div className="p-6">
-          <TrainingBuddyLogo width={120} />
-        </div>
-
-        <div className="flex flex-1 items-center justify-center px-6 py-8">
+      <div className="flex h-full w-full flex-col bg-white md:w-1/2">
+        <div className="flex flex-1 h-full items-center justify-center px-6">
           <div className="w-full max-w-xs">
+            <div className="mb-8 flex justify-center">
+              <TrainingBuddyLogo width={260} />
+            </div>
             <Outlet />
           </div>
         </div>

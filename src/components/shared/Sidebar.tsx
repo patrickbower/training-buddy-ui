@@ -21,8 +21,8 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
     ? location.pathname.split('/').at(-1)
     : undefined
 
-  const conversationMessageCount = seedConversation.messages.length
-  const conversationPreview = seedConversation.messages[0]?.content.slice(0, 29) + '…'
+  // Onboarding conversation is excluded from the coaching sidebar
+  const coachingConversations = seedConversation.id !== 'conv_01' ? [seedConversation] : []
 
   return (
     <div className="flex flex-col h-full gap-5 p-2 w-full">
@@ -72,20 +72,27 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             }}
             className="p-0 gap-0"
           >
-            <ListBox.Item
-              id={seedConversation.id}
-              textValue={conversationPreview}
-              className={navItemClassName}
-            >
-              <span className="flex flex-col min-w-0">
-                <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
-                  {conversationPreview}
-                </span>
-                <span className="text-xs text-zinc-400 leading-snug">
-                  {conversationMessageCount} message{conversationMessageCount !== 1 ? 's' : ''}
-                </span>
-              </span>
-            </ListBox.Item>
+            {coachingConversations.map((conv) => {
+              const preview = conv.messages[0]?.content.slice(0, 29) + '…'
+              const count = conv.messages.length
+              return (
+                <ListBox.Item
+                  key={conv.id}
+                  id={conv.id}
+                  textValue={preview}
+                  className={navItemClassName}
+                >
+                  <span className="flex flex-col min-w-0">
+                    <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
+                      {preview}
+                    </span>
+                    <span className="text-xs text-zinc-400 leading-snug">
+                      {count} message{count !== 1 ? 's' : ''}
+                    </span>
+                  </span>
+                </ListBox.Item>
+              )
+            })}
           </ListBox>
         </div>
       </div>

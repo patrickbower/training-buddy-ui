@@ -8,11 +8,13 @@ import {
 import { AppShell } from '@/components/shared/AppShell'
 import { AuthLayout } from '@/components/shared/AuthLayout'
 import { ChatPage } from '@/pages/ChatPage'
+import { OnboardingChatPage } from '@/pages/OnboardingChatPage'
 import { PlanPage } from '@/pages/PlanPage'
 import { OnboardingPage } from '@/pages/OnboardingPage'
 import { LoginPage } from '@/pages/LoginPage'
 import { VerifyPage } from '@/pages/VerifyPage'
 import { useAuthStore } from '@/stores/authStore'
+import { guardOnboardingChat, guardCoachingChat } from './router.guards'
 
 // Single root — renders nothing but a passthrough outlet
 const rootRoute = createRootRoute({
@@ -45,6 +47,7 @@ export const chatRoute = createRoute({
   getParentRoute: () => appRoute,
   path: '/chat/$conversationId',
   component: ChatPage,
+  beforeLoad: guardCoachingChat,
 })
 
 // /plan stays in the router to avoid broken links — removed from sidebar nav
@@ -54,7 +57,7 @@ const planRoute = createRoute({
   component: PlanPage,
 })
 
-// Onboarding — outside AppShell, no sidebar chrome
+// Onboarding splash — outside AppShell, no sidebar chrome
 const onboardingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/onboarding',
@@ -64,6 +67,20 @@ const onboardingRoute = createRoute({
       // eslint-disable-next-line @typescript-eslint/only-throw-error
       throw redirect({ to: '/login' })
     }
+  },
+})
+
+// Onboarding chat — outside AppShell, no sidebar chrome
+const onboardingChatRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/onboarding/chat',
+  component: OnboardingChatPage,
+  beforeLoad: () => {
+    if (!useAuthStore.getState().isAuthenticated) {
+      // eslint-disable-next-line @typescript-eslint/only-throw-error
+      throw redirect({ to: '/login' })
+    }
+    guardOnboardingChat()
   },
 })
 
@@ -95,6 +112,7 @@ const verifyRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   appRoute.addChildren([indexRoute, chatRoute, planRoute]),
   onboardingRoute,
+  onboardingChatRoute,
   authRoute.addChildren([loginRoute, verifyRoute]),
 ])
 

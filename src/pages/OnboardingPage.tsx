@@ -119,7 +119,7 @@ export function OnboardingPage() {
   return (
     <WelcomeScreen
       onStart={() => {
-        void navigate({ to: '/chat/$conversationId', params: { conversationId: 'conv_01' } })
+        void navigate({ to: '/onboarding/chat' })
       }}
     />
   )

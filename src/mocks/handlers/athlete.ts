@@ -1,10 +1,14 @@
 import { http, HttpResponse } from 'msw'
 import { seedAthlete, seedStravaSnapshot } from '../data/athlete'
-import type { Athlete } from '@/types/domain'
+import type { Athlete, AthleteProfile } from '@/types/domain'
 
 // Starts with onboardingCompletedAt: null to simulate a fresh onboarding session.
 // Set to a date when PATCH /api/athlete/profile is called (onboarding complete).
 let mockAthlete: Athlete = { ...seedAthlete, onboardingCompletedAt: null }
+
+export function setOnboardingComplete() {
+  mockAthlete = { ...mockAthlete, onboardingCompletedAt: new Date().toISOString() }
+}
 
 export const athleteHandlers = [
   http.get('/api/athlete', () => {
@@ -27,7 +31,7 @@ export const athleteHandlers = [
       ...(mockAthlete.profile ?? {}),
       ...body,
       updatedAt: new Date().toISOString(),
-    }
+    } as AthleteProfile
     mockAthlete = {
       ...mockAthlete,
       onboardingCompletedAt: new Date().toISOString(),

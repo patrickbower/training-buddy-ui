@@ -6,9 +6,10 @@ import type { CoachMessage } from '@/types/domain'
 interface ChatMessageProps {
   message: CoachMessage
   onQuickReply?: (reply: string) => void
+  onCardCtaPress?: () => void
 }
 
-export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
+export function ChatMessage({ message, onQuickReply, onCardCtaPress }: ChatMessageProps) {
   if (message.role === 'coach') {
     return (
       <div className="flex flex-col gap-3 w-full">
@@ -38,7 +39,7 @@ export function ChatMessage({ message, onQuickReply }: ChatMessageProps) {
             ))}
           </div>
         )}
-        {message.card && <ChatCard card={message.card} />}
+        {message.card && <ChatCard card={message.card} onCtaPress={onCardCtaPress} />}
       </div>
     )
   }
