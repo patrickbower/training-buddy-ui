@@ -1,5 +1,5 @@
-import { Button, Kbd, ListBox } from '@heroui/react'
-import { Bars, CirclePlusFill } from '@gravity-ui/icons'
+import { Button, ListBox } from '@heroui/react'
+import { Bars } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
@@ -21,7 +21,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
     ? location.pathname.split('/').at(-1)
     : undefined
 
-  // const conversationMessageCount = seedConversation.messages.length
+  const conversationMessageCount = seedConversation.messages.length
   const conversationPreview = seedConversation.messages[0]?.content.slice(0, 29) + '…'
 
   return (
@@ -51,18 +51,13 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             variant="ghost"
             size="md"
             fullWidth
-            className="group justify-start gap-4 px-3"
+            className="justify-start gap-3 px-3 rounded-full bg-zinc-100"
             onPress={() => {
               void navigate({ to: '/chat/$conversationId', params: { conversationId: 'new' } })
             }}
           >
-            <CirclePlusFill width={24} height={24} />
-            <span className="flex-1 text-left">Chat</span>
-            <Kbd variant="light" className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <Kbd.Abbr keyValue="shift" />
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>O</Kbd.Content>
-            </Kbd>
+            <span className="text-base font-medium leading-none">+</span>
+            <span className="flex-1 text-left">New</span>
           </Button>
 
           <ListBox
@@ -83,8 +78,11 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
               className={navItemClassName}
             >
               <span className="flex flex-col min-w-0">
-                <span className="text-sm text-zinc-900 leading-snug truncate">
+                <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
                   {conversationPreview}
+                </span>
+                <span className="text-xs text-zinc-400 leading-snug">
+                  {conversationMessageCount} message{conversationMessageCount !== 1 ? 's' : ''}
                 </span>
               </span>
             </ListBox.Item>

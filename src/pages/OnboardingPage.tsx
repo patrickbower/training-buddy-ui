@@ -1,6 +1,8 @@
 import { Button } from '@heroui/react'
 import { useNavigate } from '@tanstack/react-router'
 import { useStravaSnapshot } from '@/hooks/useStravaSnapshot'
+import { useAthlete } from '@/hooks/useAthlete'
+import { TrainingBuddyLogo } from '@/components/shared/TrainingBuddyLogo'
 import type { RunnerType } from '@/types/domain'
 
 // ── Summary copy ────────────────────────────────────────────────────────────
@@ -32,7 +34,7 @@ interface MetricCardProps {
 
 function MetricCard({ label, value, dataWindow }: MetricCardProps) {
   return (
-    <div className="flex flex-col items-center gap-1 p-4 rounded-xl bg-zinc-100 flex-1">
+    <div className="flex flex-col items-center gap-1 p-4 rounded-xl bg-zinc-50 flex-1">
       <span className="text-2xl font-semibold text-zinc-900">{value}</span>
       <span className="text-sm font-medium text-zinc-700">{label}</span>
       <span className="text-xs text-zinc-400">{dataWindow}</span>
@@ -40,12 +42,22 @@ function MetricCard({ label, value, dataWindow }: MetricCardProps) {
   )
 }
 
+// ── Athlete avatar ────────────────────────────────────────────────────────────
+
+function AthleteAvatar({ url }: { url: string | null }) {
+  if (url) {
+    return <img src={url} alt="" aria-hidden="true" className="size-10 rounded-full object-cover" />
+  }
+  return <div className="size-10 rounded-full bg-zinc-200" aria-hidden="true" />
+}
+
 // ── Welcome screen ───────────────────────────────────────────────────────────
 
 function WelcomeScreen({ onStart }: { onStart: () => void }) {
-  const { snapshot, isLoading } = useStravaSnapshot()
+  const { snapshot, isLoading: snapshotLoading } = useStravaSnapshot()
+  const { athlete, isLoading: athleteLoading } = useAthlete()
 
-  if (isLoading || !snapshot) {
+  if (snapshotLoading || athleteLoading || !snapshot) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p className="text-sm text-zinc-400">Loading your Strava stats…</p>
@@ -56,33 +68,45 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
   const summary = summaryByRunnerType[snapshot.inferredRunnerType]
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-8 px-6 max-w-md mx-auto">
-      <h1 className="text-3xl font-bold text-zinc-900 text-center">
-        Nice work getting here {snapshot.athleteFirstName}
-      </h1>
-      <div className="flex gap-3 w-full">
-        <MetricCard
-          label="Total Runs"
-          value={String(snapshot.totalActivities)}
-          dataWindow={snapshot.dataWindow}
-        />
-        <MetricCard
-          label="Avg Weekly"
-          value={`${String(snapshot.avgWeeklyKm)} km`}
-          dataWindow={snapshot.dataWindow}
-        />
-        <MetricCard
-          label="Longest Run"
-          value={`${String(snapshot.longestRunKm)} km`}
-          dataWindow={snapshot.dataWindow}
-        />
+    <div className="relative min-h-screen">
+      <div className="absolute top-4 left-5">
+        <TrainingBuddyLogo width={100} />
       </div>
 
-      <p className="text-base text-zinc-600 text-center">{summary}</p>
+      <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-6 max-w-md mx-auto">
+        <AthleteAvatar url={athlete?.avatarUrl ?? null} />
 
-      <Button size="lg" fullWidth onPress={onStart}>
-        Let&apos;s Go
-      </Button>
+        <h1 className="text-xl font-semibold text-zinc-900 text-center">
+          Nice work getting here {snapshot.athleteFirstName}
+        </h1>
+
+        <p className="text-sm text-zinc-500 text-center">{summary}</p>
+
+        <div className="flex gap-3 w-full">
+          <MetricCard
+            label="Total Runs"
+            value={String(snapshot.totalActivities)}
+            dataWindow={snapshot.dataWindow}
+          />
+          <MetricCard
+            label="Avg Weekly"
+            value={`${String(snapshot.avgWeeklyKm)} km`}
+            dataWindow={snapshot.dataWindow}
+          />
+          <MetricCard
+            label="Longest Run"
+            value={`${String(snapshot.longestRunKm)} km`}
+            dataWindow={snapshot.dataWindow}
+          />
+        </div>
+
+        <Button
+          className="rounded-full bg-accent text-accent-foreground text-sm font-medium px-6"
+          onPress={onStart}
+        >
+          Let&apos;s go!
+        </Button>
+      </div>
     </div>
   )
 }

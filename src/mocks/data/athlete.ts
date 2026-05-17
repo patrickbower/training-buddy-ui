@@ -5,7 +5,7 @@ export const seedAthlete: Athlete = {
   stravaId: '12345678',
   name: 'Alex Runner',
   email: 'alex@example.com',
-  avatarUrl: null,
+  avatarUrl: 'https://i.pravatar.cc/40?u=alex-runner',
   onboardingCompletedAt: '2026-01-16T10:00:00Z',
   profile: {
     runnerType: 'intermediate_marathoner',

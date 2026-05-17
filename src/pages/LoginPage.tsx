@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { Avatar, Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
-import { Person } from '@gravity-ui/icons'
+import { Button, FieldError, Form, Input, Label, TextField } from '@heroui/react'
+import { StravaLogo } from '@/components/shared/StravaLogo'
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
@@ -40,34 +40,24 @@ export function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
-      {/* Header */}
-      <div className="mb-3 flex flex-col gap-3">
-        <Avatar size="sm">
-          <Avatar.Fallback>
-            <Person className="size-4" />
-          </Avatar.Fallback>
-        </Avatar>
-        <h2 className="text-base font-medium text-zinc-900">Login</h2>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
+        <h2 className="text-base font-medium text-zinc-900">Welcome</h2>
+        <p className="text-sm text-zinc-500">
+          Enter your Training Buddy waitlist email, then connect Strava to sync your activities.
+        </p>
       </div>
 
-      {/* Body */}
-      <Form
-        id="login-form"
-        onSubmit={(e) => void handleSubmit(e)}
-        className="mb-5 flex flex-col gap-6"
-      >
-        <p className="text-sm text-zinc-500">Enter email you signed up with</p>
-
-        <TextField isInvalid={!!error} className="flex flex-col gap-3">
+      <Form id="login-form" onSubmit={(e) => void handleSubmit(e)} className="flex flex-col gap-3">
+        <TextField isInvalid={!!error} className="flex flex-col gap-1">
           <Label className="text-sm font-medium text-zinc-900">
-            Email <span className="text-red-500">*</span>
+            Your Training Buddy Email <span className="text-red-500">*</span>
           </Label>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            placeholder="you@example.com"
+            placeholder="your@email.com"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value)
@@ -80,7 +70,6 @@ export function LoginPage() {
         </TextField>
       </Form>
 
-      {/* Footer */}
       <Button
         type="submit"
         form="login-form"
@@ -88,8 +77,15 @@ export function LoginPage() {
         isDisabled={!isValidEmail(email) || isSubmitting}
         isPending={isSubmitting}
       >
-        Login using Strava
+        Connect Strava
       </Button>
+
+      <div className="flex items-start gap-3 pt-1">
+        <StravaLogo />
+        <p className="text-xs text-zinc-500">
+          Training Buddy connects to Strava. We&apos;ll never see or store your login details.
+        </p>
+      </div>
     </div>
   )
 }
