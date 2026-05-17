@@ -36,7 +36,8 @@ export function VerifyPage() {
       }
 
       login(email)
-      await navigate({ to: '/plan' })
+      const { onboardingCompletedAt } = useAuthStore.getState()
+      await navigate({ to: onboardingCompletedAt ? '/' : '/onboarding' })
     } catch {
       setError('Something went wrong. Please try again.')
       setCode('')

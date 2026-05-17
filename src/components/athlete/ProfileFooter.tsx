@@ -4,19 +4,23 @@ import { Avatar, Button, Dropdown, Label } from '@heroui/react'
 import type { Athlete } from '@/types/domain'
 import { useAuthStore } from '@/stores/authStore'
 import { SettingsModal } from './SettingsModal'
+import { ProfileModal } from './ProfileModal'
 
 interface ProfileFooterProps {
   athlete: Athlete
 }
 
 export function ProfileFooter({ athlete }: ProfileFooterProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const logout = useAuthStore((s) => s.logout)
   const navigate = useNavigate()
 
   const handleAction = (key: string | number) => {
     if (key === 'settings') {
-      setIsModalOpen(true)
+      setIsSettingsOpen(true)
+    } else if (key === 'profile') {
+      setIsProfileOpen(true)
     } else if (key === 'logout') {
       logout()
       void navigate({ to: '/login' })
@@ -40,15 +44,25 @@ export function ProfileFooter({ athlete }: ProfileFooterProps) {
           <Dropdown.Item id="settings" textValue="Settings">
             <Label>Settings</Label>
           </Dropdown.Item>
+          <Dropdown.Item id="profile" textValue="Profile">
+            <Label>Profile</Label>
+          </Dropdown.Item>
           <Dropdown.Item id="logout" textValue="Logout" variant="danger">
             <Label>Logout</Label>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown.Popover>
       <SettingsModal
-        isOpen={isModalOpen}
+        isOpen={isSettingsOpen}
         onClose={() => {
-          setIsModalOpen(false)
+          setIsSettingsOpen(false)
+        }}
+        athlete={athlete}
+      />
+      <ProfileModal
+        isOpen={isProfileOpen}
+        onClose={() => {
+          setIsProfileOpen(false)
         }}
         athlete={athlete}
       />

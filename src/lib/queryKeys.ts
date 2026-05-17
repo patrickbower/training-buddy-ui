@@ -6,4 +6,5 @@ export const queryKeys = {
   trainingPlans: () => ['training-plans'] as const,
   trainingPlan: (planId: string) => ['training-plans', planId] as const,
   conversation: () => ['conversation'] as const,
+  stravaSnapshot: () => ['strava', 'snapshot'] as const,
 } as const

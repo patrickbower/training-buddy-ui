@@ -2,15 +2,26 @@
 // Source of truth: docs/DOMAIN.md
 // These types mirror the API contract in docs/API_CONTRACT.md
 
-export type FitnessLevel = 'beginner' | 'intermediate' | 'advanced'
+export type RunnerType =
+  | 'beginner_runner'
+  | 'intermediate_marathoner'
+  | 'experienced_ultra'
+  | 'comeback_runner'
+  | 'speed_focused'
+  | 'inconsistent_runner'
+  | 'minimal_data'
 
-export type GoalType = 'race' | 'distance' | 'consistency' | 'weight_loss' | 'general_fitness'
+export type CoachingStyle = 'supportive' | 'data_driven' | 'tough_love' | 'balanced'
 
-export interface AthleteGoal {
-  id: string
-  type: GoalType
-  description: string
-  targetDate: string | null // ISO 8601 date
+export interface AthleteProfile {
+  runnerType: RunnerType
+  primaryGoal: string
+  goalTimeline: string | null // ISO 8601 date
+  currentInjuries: string | null
+  weeklyAvailabilityDays: number
+  coachingStyle: CoachingStyle
+  additionalContext: string | null
+  updatedAt: string // ISO 8601
 }
 
 export interface Athlete {
@@ -19,10 +30,28 @@ export interface Athlete {
   name: string
   email: string
   avatarUrl: string | null
-  fitnessLevel: FitnessLevel
-  weeklyMileageTarget: number // km
-  goals: AthleteGoal[]
+  onboardingCompletedAt: string | null // null = onboarding not yet completed
+  profile: AthleteProfile | null // null pre-onboarding
   createdAt: string // ISO 8601
+}
+
+export interface StravaSnapshot {
+  athleteFirstName: string
+  totalActivities: number
+  avgWeeklyKm: number
+  longestRunKm: number
+  avgPacePerKm: string // e.g. "5:30"
+  dataWindow: string // e.g. "Last 6 months"
+  inferredRunnerType: RunnerType
+  inferredConfidence: 'high' | 'low'
+}
+
+export interface StravaActivity {
+  id: string
+  date: string // ISO 8601 date (YYYY-MM-DD)
+  distanceKm: number
+  durationSeconds: number
+  pacePerKm: string // e.g. "5:30"
 }
 
 export type SessionType = 'easy' | 'tempo' | 'interval' | 'long' | 'rest' | 'race'
@@ -72,11 +101,26 @@ export interface Run {
 
 export type MessageRole = 'athlete' | 'coach'
 
+export interface OnboardingStep {
+  index: number
+  total: number
+  complete?: boolean
+}
+
+export interface MessageCard {
+  title: string
+  body: string
+  cta?: { label: string; to: string }
+}
+
 export interface CoachMessage {
   id: string
   conversationId: string
   role: MessageRole
   content: string
+  quickReplies: string[] | null
+  onboardingStep: OnboardingStep | null
+  card: MessageCard | null
   createdAt: string
 }
 

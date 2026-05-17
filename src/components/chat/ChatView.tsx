@@ -12,6 +12,8 @@ export function ChatView() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  const lastIdx = messages.length - 1
+
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       <ol
@@ -27,11 +29,19 @@ export function ChatView() {
             <Skeleton className="h-8 w-2/3 rounded-lg" />
           </>
         ) : (
-          messages.map((message) => (
+          messages.map((message, idx) => (
             <li key={message.id}>
-              <ChatMessage message={message} />
+              <ChatMessage
+                message={message}
+                onQuickReply={idx === lastIdx ? sendMessage : undefined}
+              />
             </li>
           ))
+        )}
+        {isPending && (
+          <li>
+            <span className="text-xs text-zinc-400">Thinking…</span>
+          </li>
         )}
         <div ref={bottomRef} />
       </ol>

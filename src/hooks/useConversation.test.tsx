@@ -1,9 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { http, HttpResponse } from 'msw'
 import { server } from '@/mocks/server'
 import { useConversation } from './useConversation'
+import { useAuthStore } from '@/stores/authStore'
+import { seedAthlete } from '@/mocks/data/athlete'
 
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -13,6 +15,60 @@ function createWrapper() {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
+
+describe('useConversation — onboarding completion', () => {
+  beforeEach(() => {
+    useAuthStore.setState({
+      isAuthenticated: true,
+      email: 'athlete@test.com',
+      onboardingCompletedAt: null,
+    })
+  })
+
+  it('calls completeOnboarding when athlete gains onboardingCompletedAt after stream close', async () => {
+    server.use(
+      http.get('/api/athlete', () =>
+        HttpResponse.json({ ...seedAthlete, onboardingCompletedAt: '2026-05-13T10:00:00Z' }),
+      ),
+    )
+
+    const { result } = renderHook(() => useConversation(), { wrapper: createWrapper() })
+
+    await waitFor(() => {
+      expect(result.current.messages.length).toBeGreaterThan(0)
+    })
+
+    result.current.sendMessage('Yes, that sounds right')
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false)
+    })
+
+    expect(useAuthStore.getState().onboardingCompletedAt).toBe('2026-05-13T10:00:00Z')
+  })
+
+  it('does not call completeOnboarding when onboardingCompletedAt was already set', async () => {
+    useAuthStore.setState({
+      isAuthenticated: true,
+      email: 'athlete@test.com',
+      onboardingCompletedAt: '2026-01-16T10:00:00Z',
+    })
+
+    const { result } = renderHook(() => useConversation(), { wrapper: createWrapper() })
+
+    await waitFor(() => {
+      expect(result.current.messages.length).toBeGreaterThan(0)
+    })
+
+    result.current.sendMessage('Another message')
+
+    await waitFor(() => {
+      expect(result.current.isPending).toBe(false)
+    })
+
+    expect(useAuthStore.getState().onboardingCompletedAt).toBe('2026-01-16T10:00:00Z')
+  })
+})
 
 describe('useConversation', () => {
   it('returns an empty array while loading', () => {
