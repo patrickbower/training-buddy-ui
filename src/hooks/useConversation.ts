@@ -59,6 +59,9 @@ export function useConversation(): UseConversationResult {
             completeOnboarding(athlete.onboardingCompletedAt)
           }
         })
+        .catch(() => {
+          // best-effort — failure is acceptable
+        })
     },
   })
 
