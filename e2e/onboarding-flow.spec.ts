@@ -4,7 +4,7 @@ test.describe('Onboarding flow', () => {
   test('new athlete lands in chat where onboarding takes place', async ({ page, loginAs }) => {
     await loginAs({ onboardingCompletedAt: null })
     await page.goto('/')
-    await expect(page).toHaveURL(/\/chat\//)
+    await expect(page).toHaveURL(/\/onboarding\/chat/)
   })
 
   test('returning athlete skips onboarding and lands in chat', async ({ page, loginAs }) => {
@@ -19,7 +19,7 @@ test.describe('Onboarding flow', () => {
 
     await expect(page.getByText('Total Runs')).toBeVisible()
     await expect(page.getByText('Avg Weekly')).toBeVisible()
-    await expect(page.getByText('Longest Run')).toBeVisible()
+    await expect(page.getByText('Longest')).toBeVisible()
     await expect(page.getByRole('button', { name: /let's go/i })).toBeVisible()
   })
 
@@ -32,7 +32,7 @@ test.describe('Onboarding flow', () => {
 
     // Welcome screen — click Let's Go to enter chat
     await page.getByRole('button', { name: /let's go/i }).click()
-    await expect(page).toHaveURL(/\/chat\//)
+    await expect(page).toHaveURL(/\/onboarding\/chat/)
 
     // Step 1 — runner type (seeded in conversation)
     await expect(page.getByText(/Profile · Step 1 of 7/)).toBeVisible()
