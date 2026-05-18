@@ -38,7 +38,7 @@ export function OnboardingChatView() {
   const lastIdx = messages.length - 1
 
   return (
-    <div className="relative flex flex-col h-screen overflow-y-auto">
+    <div className="relative flex flex-col h-screen">
       <div className="fixed top-5 left-5">
         <TrainingBuddyLogo width={140} />
       </div>
@@ -46,7 +46,7 @@ export function OnboardingChatView() {
         role="log"
         aria-label="Conversation"
         aria-live="polite"
-        className="flex flex-col gap-10 px-3 pt-20 pb-5 max-w-160 w-full mx-auto flex-1"
+        className="flex flex-col gap-10 px-3 pt-20 pb-5 max-w-160 w-full mx-auto flex-1 overflow-y-auto"
       >
         <li>
           <h4 className="text-base font-semibold text-zinc-900">

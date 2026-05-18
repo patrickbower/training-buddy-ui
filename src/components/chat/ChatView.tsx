@@ -15,12 +15,12 @@ export function ChatView() {
   const lastIdx = messages.length - 1
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col h-full">
       <ol
         role="log"
         aria-label="Conversation"
         aria-live="polite"
-        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto flex-1"
+        className="flex flex-col gap-10 px-3 pt-10 pb-5 max-w-160 w-full mx-auto flex-1 overflow-y-auto"
       >
         {messages.length === 0 && !isPending ? (
           <>
