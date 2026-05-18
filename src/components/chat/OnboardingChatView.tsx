@@ -48,6 +48,11 @@ export function OnboardingChatView() {
         aria-live="polite"
         className="flex flex-col gap-10 px-3 pt-20 pb-5 max-w-160 w-full mx-auto flex-1"
       >
+        <li>
+          <h4 className="text-base font-semibold text-zinc-900">
+            As your coach, let me start with a few questions
+          </h4>
+        </li>
         {messages.length === 0 && !isPending ? (
           <>
             <Skeleton className="h-8 w-3/4 rounded-lg" />
