@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import { seedConversation } from '../data/conversation'
+import { setOnboardingComplete } from './athlete'
 import type { Conversation, CoachMessage, MessageCard } from '@/types/domain'
 
 let conversation: Conversation = { ...seedConversation, messages: [...seedConversation.messages] }
@@ -76,6 +77,31 @@ export const conversationHandlers = [
     return HttpResponse.json(conversation)
   }),
 
+  http.post('/api/conversation', () => {
+    const newConversation: Conversation = {
+      id: 'conv_02',
+      athleteId: 'ath_01',
+      messages: [
+        {
+          id: `msg_${crypto.randomUUID()}`,
+          conversationId: 'conv_02',
+          role: 'coach',
+          content:
+            "You're targeting a sub-4hr marathon by October — let's build your plan. Where do you want to start?",
+          quickReplies: ['My weekly schedule', 'Race-day prep', 'Start from scratch'],
+          onboardingStep: null,
+          card: null,
+          createdAt: new Date().toISOString(),
+        },
+      ],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+    // Replace active conversation so GET /api/conversation returns the new one
+    conversation = newConversation
+    return HttpResponse.json(newConversation, { status: 201 })
+  }),
+
   http.post('/api/conversation/messages', async ({ request }) => {
     const body = (await request.json()) as { content: string }
 
@@ -108,6 +134,7 @@ export const conversationHandlers = [
       coachOnboardingStep = step.complete
         ? { index: TOTAL_STEPS, total: TOTAL_STEPS, complete: true }
         : { index: responseIndex + 2, total: TOTAL_STEPS }
+      if (step.complete) setOnboardingComplete()
       responseIndex++
     } else {
       coachContent =

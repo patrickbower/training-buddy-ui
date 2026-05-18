@@ -4,9 +4,10 @@ import type { MessageCard } from '@/types/domain'
 
 interface ChatCardProps {
   card: MessageCard
+  onCtaPress?: () => void
 }
 
-export function ChatCard({ card }: ChatCardProps) {
+export function ChatCard({ card, onCtaPress }: ChatCardProps) {
   const navigate = useNavigate()
 
   return (
@@ -18,8 +19,12 @@ export function ChatCard({ card }: ChatCardProps) {
           size="sm"
           className="self-start rounded-full bg-zinc-900 text-white text-xs font-medium"
           onPress={() => {
-            const { to } = card.cta ?? {}
-            if (to) void navigate({ to: to as '/' })
+            if (onCtaPress) {
+              onCtaPress()
+            } else {
+              const { to } = card.cta ?? {}
+              if (to) void navigate({ to: to as '/' })
+            }
           }}
         >
           {card.cta.label}

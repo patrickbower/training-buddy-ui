@@ -93,6 +93,7 @@ export const api = {
 
   conversation: {
     get: (): Promise<Conversation> => request('/conversation'),
+    create: (): Promise<Conversation> => request('/conversation', { method: 'POST' }),
     sendMessage: (content: string, options?: { signal?: AbortSignal }): Promise<CoachMessage> =>
       request('/conversation/messages', {
         method: 'POST',

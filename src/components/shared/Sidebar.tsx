@@ -1,5 +1,5 @@
-import { Button, Kbd, ListBox } from '@heroui/react'
-import { Bars, CirclePlusFill } from '@gravity-ui/icons'
+import { Button, ListBox } from '@heroui/react'
+import { Bars, Plus } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
@@ -21,15 +21,15 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
     ? location.pathname.split('/').at(-1)
     : undefined
 
-  // const conversationMessageCount = seedConversation.messages.length
-  const conversationPreview = seedConversation.messages[0]?.content.slice(0, 29) + '…'
+  // Onboarding conversation is excluded from the coaching sidebar
+  const coachingConversations = seedConversation.id !== 'conv_01' ? [seedConversation] : []
 
   return (
-    <div className="flex flex-col h-full gap-5 p-2 w-full">
+    <div className="flex flex-col h-full gap-5 p-5 w-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 h-10.75">
-        <div className="flex items-center pt-6">
-          <TrainingBuddyLogo />
+      <div className="flex items-center justify-between">
+        <div className="pb-3">
+          <TrainingBuddyLogo width={140} />
         </div>
         {onMenuToggle && (
           <Button
@@ -51,18 +51,13 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             variant="ghost"
             size="md"
             fullWidth
-            className="group justify-start gap-4 px-3"
+            className="justify-start gap-3 px-3 rounded-full bg-zinc-200"
             onPress={() => {
               void navigate({ to: '/chat/$conversationId', params: { conversationId: 'new' } })
             }}
           >
-            <CirclePlusFill width={24} height={24} />
-            <span className="flex-1 text-left">Chat</span>
-            <Kbd variant="light" className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <Kbd.Abbr keyValue="shift" />
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>O</Kbd.Content>
-            </Kbd>
+            <Plus />
+            <span className="flex-1 text-left">New chat</span>
           </Button>
 
           <ListBox
@@ -77,17 +72,27 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             }}
             className="p-0 gap-0"
           >
-            <ListBox.Item
-              id={seedConversation.id}
-              textValue={conversationPreview}
-              className={navItemClassName}
-            >
-              <span className="flex flex-col min-w-0">
-                <span className="text-sm text-zinc-900 leading-snug truncate">
-                  {conversationPreview}
-                </span>
-              </span>
-            </ListBox.Item>
+            {coachingConversations.map((conv) => {
+              const preview = conv.messages[0]?.content.slice(0, 29) + '…'
+              const count = conv.messages.length
+              return (
+                <ListBox.Item
+                  key={conv.id}
+                  id={conv.id}
+                  textValue={preview}
+                  className={navItemClassName}
+                >
+                  <span className="flex flex-col min-w-0">
+                    <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
+                      {preview}
+                    </span>
+                    <span className="text-xs text-zinc-400 leading-snug">
+                      {count} message{count !== 1 ? 's' : ''}
+                    </span>
+                  </span>
+                </ListBox.Item>
+              )
+            })}
           </ListBox>
         </div>
       </div>

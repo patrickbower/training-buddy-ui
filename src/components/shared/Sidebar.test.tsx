@@ -33,15 +33,14 @@ function renderSidebar(initialPath = '/chat/conv_01') {
 describe('Sidebar', () => {
   it('does not render a Plan nav item', async () => {
     const { container } = renderSidebar()
-    // Wait for sidebar to mount, then verify Plan text is absent
-    await screen.findByText(/chat/i)
+    await screen.findByText(/new/i)
     expect(container.querySelector('[href="/plan"]')).toBeNull()
     expect(screen.queryByText('Plan')).toBeNull()
   })
 
-  it('renders a Chat nav item', async () => {
+  it('renders a New chat button', async () => {
     renderSidebar()
-    const chatButton = await screen.findByRole('button', { name: /chat/i })
-    expect(chatButton).toBeDefined()
+    const newButton = await screen.findByRole('button', { name: /new/i })
+    expect(newButton).toBeDefined()
   })
 })

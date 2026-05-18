@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
-import { Avatar, Button, ErrorMessage, InputOTP, REGEXP_ONLY_DIGITS } from '@heroui/react'
-import { Person } from '@gravity-ui/icons'
+import { Button, ErrorMessage, InputOTP, REGEXP_ONLY_DIGITS } from '@heroui/react'
 import { useAuthStore } from '@/stores/authStore'
+import { StravaLogo } from '@/components/shared/StravaLogo'
 
 export function VerifyPage() {
   const navigate = useNavigate()
@@ -52,27 +52,19 @@ export function VerifyPage() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-3xl bg-white/80 p-6 shadow-xl backdrop-blur-xl">
-      {/* Header */}
-      <div className="mb-3 flex flex-col gap-3">
-        <Avatar size="sm">
-          <Avatar.Fallback>
-            <Person className="size-4" />
-          </Avatar.Fallback>
-        </Avatar>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-3">
         <h2 className="text-base font-medium text-zinc-900">Verify email</h2>
+        <p className="text-sm text-zinc-500">We&apos;ve sent a code to {email || 'your email'}</p>
       </div>
 
-      {/* Body */}
-      <div className="mb-5 flex flex-col gap-3">
-        <p className="text-sm text-zinc-500">We&apos;ve sent a code to {email || 'your email'}</p>
-
-        <div className="flex self-center py-4">
+      <div className="flex flex-col gap-3">
+        <div className="flex self-center py-2">
           <InputOTP
             autoFocus
             maxLength={6}
             pattern={REGEXP_ONLY_DIGITS}
-            variant="primary"
+            variant="secondary"
             value={code}
             isInvalid={!!error}
             isDisabled={isSubmitting}
@@ -102,28 +94,32 @@ export function VerifyPage() {
           {resent ? (
             <span className="font-medium text-zinc-900">Code resent</span>
           ) : (
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
-              onPress={handleResend}
-              className="h-auto min-h-0 p-0 font-medium text-zinc-900 underline"
+              onClick={handleResend}
+              className="font-medium text-zinc-900 hover:cursor-pointer"
             >
               Resend
-            </Button>
+            </button>
           )}
         </div>
       </div>
 
-      {/* Footer */}
       <Button
         className="w-full rounded-full bg-[#fc4c02] text-sm font-medium text-white"
         isDisabled={code.length !== 6 || isSubmitting}
         isPending={isSubmitting}
         onPress={() => void handleComplete(code)}
       >
-        Login using Strava
+        Connect Strava
       </Button>
+
+      <div className="flex gap-3 pt-1">
+        <StravaLogo />
+        <p className="text-xs text-zinc-500">
+          Training Buddy connects to Strava. We&apos;ll never see or store your login details.
+        </p>
+      </div>
     </div>
   )
 }

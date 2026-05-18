@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
-import { useAuthStore } from '@/stores/authStore'
 import type { CoachMessage, Conversation } from '@/types/domain'
 
 export interface UseConversationResult {
@@ -51,17 +50,6 @@ export function useConversation(): UseConversationResult {
     },
     onSettled: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.conversation() })
-      void queryClient
-        .fetchQuery({ queryKey: queryKeys.athlete(), queryFn: api.athlete.get })
-        .then((athlete) => {
-          const { onboardingCompletedAt, completeOnboarding } = useAuthStore.getState()
-          if (athlete.onboardingCompletedAt && !onboardingCompletedAt) {
-            completeOnboarding(athlete.onboardingCompletedAt)
-          }
-        })
-        .catch(() => {
-          // best-effort — failure is acceptable
-        })
     },
   })
 

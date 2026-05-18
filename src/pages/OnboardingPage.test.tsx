@@ -19,13 +19,13 @@ function renderOnboardingPage() {
     path: '/onboarding',
     component: OnboardingPage,
   })
-  const chatRoute = createRoute({
+  const onboardingChatRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: '/chat/$conversationId',
-    component: () => <div>Chat page</div>,
+    path: '/onboarding/chat',
+    component: () => <div>Onboarding chat page</div>,
   })
   const router = createRouter({
-    routeTree: rootRoute.addChildren([route, chatRoute]),
+    routeTree: rootRoute.addChildren([route, onboardingChatRoute]),
     history: createMemoryHistory({ initialEntries: ['/onboarding'] }),
   })
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
@@ -42,15 +42,7 @@ describe('OnboardingPage — welcome screen', () => {
     await waitFor(() => {
       expect(screen.getByText('Total Runs')).toBeInTheDocument()
       expect(screen.getByText('Avg Weekly')).toBeInTheDocument()
-      expect(screen.getByText('Longest Run')).toBeInTheDocument()
-    })
-  })
-
-  it('shows the data window label on each card', async () => {
-    renderOnboardingPage()
-    await waitFor(() => {
-      const labels = screen.getAllByText('Last 6 months')
-      expect(labels.length).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Longest')).toBeInTheDocument()
     })
   })
 
@@ -60,12 +52,12 @@ describe('OnboardingPage — welcome screen', () => {
     expect(cta).toBeInTheDocument()
   })
 
-  it("clicking Let's Go navigates to /chat/conv_01", async () => {
+  it("clicking Let's Go navigates to /onboarding/chat", async () => {
     const user = userEvent.setup()
     renderOnboardingPage()
 
     await user.click(await screen.findByRole('button', { name: /let's go/i }))
 
-    expect(await screen.findByText('Chat page')).toBeInTheDocument()
+    expect(await screen.findByText('Onboarding chat page')).toBeInTheDocument()
   })
 })

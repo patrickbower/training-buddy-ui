@@ -9,7 +9,7 @@ export function AppShell() {
 
   return (
     <div className="flex h-screen bg-zinc-100">
-      {/* Desktop sidebar — hidden on mobile */}
+      {/* Desktop sidebar */}
       <aside className="hidden md:flex w-60 shrink-0 bg-zinc-100">
         <Sidebar />
       </aside>

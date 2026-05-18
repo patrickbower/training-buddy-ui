@@ -1,4 +1,4 @@
-import { Alert, Avatar, Button, Label, Modal } from '@heroui/react'
+import { Alert, Button, Label, Modal } from '@heroui/react'
 import { Check } from '@gravity-ui/icons'
 import type { Athlete } from '@/types/domain'
 
@@ -20,9 +20,6 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
         <Modal.Dialog className="sm:max-w-lg">
           <Modal.CloseTrigger />
           <Modal.Header>
-            <Avatar size="sm">
-              <Avatar.Fallback className="text-xs">{athlete.name[0]}</Avatar.Fallback>
-            </Avatar>
             <Modal.Heading>Settings</Modal.Heading>
           </Modal.Header>
           <Modal.Body className="flex flex-col gap-4">

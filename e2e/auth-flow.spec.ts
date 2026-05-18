@@ -6,7 +6,7 @@ test.describe('Auth flow', () => {
 
     // Fill in a valid email and submit
     await page.getByRole('textbox').fill('athlete@test.com')
-    await page.getByRole('button', { name: /login using strava/i }).click()
+    await page.getByRole('button', { name: /verify email/i }).click()
 
     // Should land on verify page showing the email
     await expect(page).toHaveURL(/\/verify/)
@@ -23,7 +23,7 @@ test.describe('Auth flow', () => {
     await page.goto('/login')
 
     await page.getByRole('textbox').fill('fail@test.com')
-    await page.getByRole('button', { name: /login using strava/i }).click()
+    await page.getByRole('button', { name: /verify email/i }).click()
 
     await expect(page.getByText('User not found')).toBeVisible()
     await expect(page).toHaveURL(/\/login/)
@@ -32,7 +32,7 @@ test.describe('Auth flow', () => {
   test('OTP error: code 000000 shows error message', async ({ page }) => {
     await page.goto('/login')
     await page.getByRole('textbox').fill('athlete@test.com')
-    await page.getByRole('button', { name: /login using strava/i }).click()
+    await page.getByRole('button', { name: /verify email/i }).click()
 
     await expect(page).toHaveURL(/\/verify/)
     await page.locator('input[autocomplete]').pressSequentially('000000')

@@ -42,7 +42,7 @@ Returns the authenticated athlete's profile.
   "stravaId": "12345678",
   "name": "Alex Runner",
   "email": "alex@example.com",
-  "avatarUrl": null,
+  "avatarUrl": "https://dgalywyr863hv.cloudfront.net/pictures/athletes/12345678/profile.jpg",
   "onboardingCompletedAt": "2026-01-16T10:00:00Z",
   "profile": {
     "runnerType": "intermediate_marathoner",
@@ -59,6 +59,8 @@ Returns the authenticated athlete's profile.
 ```
 
 `onboardingCompletedAt` is `null` for athletes who have not yet completed onboarding. `profile` is `null` pre-onboarding.
+
+> **BE required:** `avatarUrl` must be populated from the athlete's Strava profile photo URL (available via the Strava API `athlete` endpoint as `profile_medium` or `profile`). It is currently `null` in the mock — this is a known gap pending backend implementation. The splash screen (`/onboarding`) displays this avatar.
 
 ### `PATCH /api/athlete`
 

@@ -16,7 +16,7 @@ function createWrapper() {
   )
 }
 
-describe('useConversation — onboarding completion', () => {
+describe('useConversation — pure data hook', () => {
   beforeEach(() => {
     useAuthStore.setState({
       isAuthenticated: true,
@@ -25,7 +25,7 @@ describe('useConversation — onboarding completion', () => {
     })
   })
 
-  it('calls completeOnboarding when athlete gains onboardingCompletedAt after stream close', async () => {
+  it('does not call completeOnboarding in onSettled even when the athlete API returns a date', async () => {
     server.use(
       http.get('/api/athlete', () =>
         HttpResponse.json({ ...seedAthlete, onboardingCompletedAt: '2026-05-13T10:00:00Z' }),
@@ -44,29 +44,7 @@ describe('useConversation — onboarding completion', () => {
       expect(result.current.isPending).toBe(false)
     })
 
-    expect(useAuthStore.getState().onboardingCompletedAt).toBe('2026-05-13T10:00:00Z')
-  })
-
-  it('does not call completeOnboarding when onboardingCompletedAt was already set', async () => {
-    useAuthStore.setState({
-      isAuthenticated: true,
-      email: 'athlete@test.com',
-      onboardingCompletedAt: '2026-01-16T10:00:00Z',
-    })
-
-    const { result } = renderHook(() => useConversation(), { wrapper: createWrapper() })
-
-    await waitFor(() => {
-      expect(result.current.messages.length).toBeGreaterThan(0)
-    })
-
-    result.current.sendMessage('Another message')
-
-    await waitFor(() => {
-      expect(result.current.isPending).toBe(false)
-    })
-
-    expect(useAuthStore.getState().onboardingCompletedAt).toBe('2026-01-16T10:00:00Z')
+    expect(useAuthStore.getState().onboardingCompletedAt).toBeNull()
   })
 })
 

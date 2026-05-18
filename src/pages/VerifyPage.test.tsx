@@ -56,14 +56,14 @@ describe('VerifyPage', () => {
 
   it('submit button is disabled until all 6 digits are entered', async () => {
     await renderVerifyPage()
-    const button = await screen.findByRole('button', { name: /login using strava/i })
+    const button = await screen.findByRole('button', { name: /connect strava/i })
     expect(button).toBeDisabled()
   })
 
   it('shows an error message when the API returns 400', async () => {
     const user = userEvent.setup()
     await renderVerifyPage()
-    await screen.findByRole('button', { name: /login using strava/i })
+    await screen.findByRole('button', { name: /connect strava/i })
 
     // InputOTP renders a hidden input — interact via keyboard on the container
     const otpContainer = document.querySelector('.input-otp__container, [data-input-otp-container]')

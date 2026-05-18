@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Avatar, Button, Label, Modal } from '@heroui/react'
+import { Button, Label, Modal } from '@heroui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
@@ -60,10 +60,7 @@ export function ProfileModal({ isOpen, onClose, athlete }: ProfileModalProps) {
         <Modal.Dialog className="sm:max-w-lg">
           <Modal.CloseTrigger />
           <Modal.Header>
-            <Avatar size="sm">
-              <Avatar.Fallback className="text-xs">{athlete.name[0]}</Avatar.Fallback>
-            </Avatar>
-            <Modal.Heading>Coaching Profile</Modal.Heading>
+            <Modal.Heading>Profile</Modal.Heading>
           </Modal.Header>
           <Modal.Body className="flex flex-col gap-4">
             <hr />
