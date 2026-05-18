@@ -1,28 +1,35 @@
 import { Button, ListBox } from '@heroui/react'
 import { Bars, Plus } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
 import { seedAthlete } from '@/mocks/data/athlete'
-import { seedConversation } from '@/mocks/data/conversation'
+import { api } from '@/lib/api'
+import { queryKeys } from '@/lib/queryKeys'
+import { useAuthStore } from '@/stores/authStore'
 
 interface SidebarProps {
   onMenuToggle?: () => void
 }
 
 const navItemClassName =
-  'flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-full w-full cursor-pointer data-[selected=true]:bg-default'
+  'flex gap-3 items-center min-h-9 px-3 py-1.5 rounded-sm w-full cursor-pointer data-[selected=true]:bg-zinc-200 '
 
 export function Sidebar({ onMenuToggle }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
+  const onboardingCompletedAt = useAuthStore((s) => s.onboardingCompletedAt)
+
+  const { data: conversation } = useQuery({
+    queryKey: queryKeys.conversation(),
+    queryFn: api.conversation.get,
+    enabled: !!onboardingCompletedAt,
+  })
 
   const activeConversationId = location.pathname.startsWith('/chat/')
     ? location.pathname.split('/').at(-1)
     : undefined
-
-  // Onboarding conversation is excluded from the coaching sidebar
-  const coachingConversations = seedConversation.id !== 'conv_01' ? [seedConversation] : []
 
   return (
     <div className="flex flex-col h-full gap-5 p-5 w-full">
@@ -46,7 +53,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
 
       {/* Nav */}
       <div className="flex flex-col flex-1 min-h-0">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           <Button
             variant="ghost"
             size="md"
@@ -60,40 +67,36 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             <span className="flex-1 text-left">New chat</span>
           </Button>
 
-          <ListBox
-            aria-label="Conversations"
-            selectionMode="single"
-            selectedKeys={activeConversationId ? new Set([activeConversationId]) : new Set()}
-            onAction={(key) => {
-              void navigate({
-                to: '/chat/$conversationId',
-                params: { conversationId: String(key) },
-              })
-            }}
-            className="p-0 gap-0"
-          >
-            {coachingConversations.map((conv) => {
-              const preview = conv.messages[0]?.content.slice(0, 29) + '…'
-              const count = conv.messages.length
-              return (
-                <ListBox.Item
-                  key={conv.id}
-                  id={conv.id}
-                  textValue={preview}
-                  className={navItemClassName}
-                >
-                  <span className="flex flex-col min-w-0">
-                    <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
-                      {preview}
-                    </span>
-                    <span className="text-xs text-zinc-400 leading-snug">
-                      {count} message{count !== 1 ? 's' : ''}
-                    </span>
+          {conversation && (
+            <ListBox
+              aria-label="Conversations"
+              selectionMode="single"
+              selectedKeys={activeConversationId ? new Set([activeConversationId]) : new Set()}
+              onAction={(key) => {
+                void navigate({
+                  to: '/chat/$conversationId',
+                  params: { conversationId: String(key) },
+                })
+              }}
+            >
+              <ListBox.Item
+                key={conversation.id}
+                id={conversation.id}
+                textValue={conversation.messages[0]?.content.slice(0, 29) + '…'}
+                className={navItemClassName}
+              >
+                <span className="flex flex-col min-w-0">
+                  <span className="text-sm font-medium text-zinc-900 leading-snug truncate">
+                    {conversation.messages[0]?.content.slice(0, 29)}…
                   </span>
-                </ListBox.Item>
-              )
-            })}
-          </ListBox>
+                  <span className="text-xs text-zinc-400 leading-snug">
+                    {conversation.messages.length} message
+                    {conversation.messages.length !== 1 ? 's' : ''}
+                  </span>
+                </span>
+              </ListBox.Item>
+            </ListBox>
+          )}
         </div>
       </div>
 
