@@ -78,9 +78,11 @@ export function OnboardingChatView() {
         )}
         <div ref={bottomRef} />
       </ol>
-      <div className="pb-5 max-w-2xl w-full mx-auto bg-white shrink-0">
-        <ChatInput onSend={sendMessage} />
-      </div>
+      {!hasSynthesis && (
+        <div className="pb-5 max-w-2xl w-full mx-auto bg-white shrink-0">
+          <ChatInput onSend={sendMessage} />
+        </div>
+      )}
     </div>
   )
 }
