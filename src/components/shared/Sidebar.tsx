@@ -1,5 +1,5 @@
 import { Button, ListBox } from '@heroui/react'
-import { Bars } from '@gravity-ui/icons'
+import { Bars, Plus } from '@gravity-ui/icons'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
@@ -25,11 +25,11 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
   const coachingConversations = seedConversation.id !== 'conv_01' ? [seedConversation] : []
 
   return (
-    <div className="flex flex-col h-full gap-5 p-2 w-full">
+    <div className="flex flex-col h-full gap-5 p-5 w-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-3 h-10.75">
-        <div className="flex items-center pt-6">
-          <TrainingBuddyLogo />
+      <div className="flex items-center justify-between">
+        <div className="pb-3">
+          <TrainingBuddyLogo width={140} />
         </div>
         {onMenuToggle && (
           <Button
@@ -51,13 +51,13 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
             variant="ghost"
             size="md"
             fullWidth
-            className="justify-start gap-3 px-3 rounded-full bg-zinc-100"
+            className="justify-start gap-3 px-3 rounded-full bg-zinc-200"
             onPress={() => {
               void navigate({ to: '/chat/$conversationId', params: { conversationId: 'new' } })
             }}
           >
-            <span className="text-base font-medium leading-none">+</span>
-            <span className="flex-1 text-left">New</span>
+            <Plus />
+            <span className="flex-1 text-left">New chat</span>
           </Button>
 
           <ListBox

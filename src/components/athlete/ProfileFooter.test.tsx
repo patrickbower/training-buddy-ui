@@ -94,7 +94,7 @@ describe('ProfileFooter', () => {
 
     expect(screen.queryByRole('menuitem', { name: /^profile$/i })).not.toBeInTheDocument()
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.getByText(/coaching profile/i)).toBeInTheDocument()
+    expect(screen.getByText(/^profile$/i)).toBeInTheDocument()
   })
 
   it('clicking Logout clears auth state', async () => {
