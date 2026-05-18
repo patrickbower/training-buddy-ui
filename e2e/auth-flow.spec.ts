@@ -14,6 +14,7 @@ test.describe('Auth flow', () => {
 
     // Type a valid 6-digit code — InputOTP uses a hidden input
     await page.locator('input[autocomplete]').pressSequentially('123456')
+    await page.getByRole('button', { name: /connect strava/i }).click()
 
     // New athlete (onboardingCompletedAt is null) redirects to /onboarding
     await expect(page).toHaveURL(/\/onboarding/)
@@ -36,6 +37,7 @@ test.describe('Auth flow', () => {
 
     await expect(page).toHaveURL(/\/verify/)
     await page.locator('input[autocomplete]').pressSequentially('000000')
+    await page.getByRole('button', { name: /connect strava/i }).click()
 
     await expect(page.getByText('Invalid code')).toBeVisible()
     await expect(page).toHaveURL(/\/verify/)

@@ -60,21 +60,36 @@ describe('VerifyPage', () => {
     expect(button).toBeDisabled()
   })
 
-  it('shows an error message when the API returns 400', async () => {
+  it('does not submit when 6 digits are entered without clicking the button', async () => {
     const user = userEvent.setup()
     await renderVerifyPage()
     await screen.findByRole('button', { name: /connect strava/i })
 
-    // InputOTP renders a hidden input — interact via keyboard on the container
-    const otpContainer = document.querySelector('.input-otp__container, [data-input-otp-container]')
-    const otpInput = otpContainer
-      ? otpContainer.querySelector('input')
-      : document.querySelector('input[autocomplete]')
-
+    const otpInput = document.querySelector('input[autocomplete]')
     if (otpInput) {
       await user.click(otpInput)
       await user.keyboard('000000')
     }
+
+    // Button should now be enabled but no API call should have been made
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /connect strava/i })).not.toBeDisabled()
+    })
+    expect(screen.queryByText('Invalid code')).not.toBeInTheDocument()
+  })
+
+  it('shows an error message when the API returns 400', async () => {
+    const user = userEvent.setup()
+    await renderVerifyPage()
+    const button = await screen.findByRole('button', { name: /connect strava/i })
+
+    const otpInput = document.querySelector('input[autocomplete]')
+    if (otpInput) {
+      await user.click(otpInput)
+      await user.keyboard('000000')
+    }
+
+    await user.click(button)
 
     await waitFor(() => {
       expect(screen.getByText('Invalid code')).toBeInTheDocument()
