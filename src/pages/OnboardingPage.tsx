@@ -66,8 +66,8 @@ function WelcomeScreen({ onStart }: { onStart: () => void }) {
   const summary = summaryByRunnerType[snapshot.inferredRunnerType]
 
   return (
-    <div className="min-h-screen">
-      <div className="p-5">
+    <div className="relative min-h-screen">
+      <div className="absolute top-5 left-5">
         <TrainingBuddyLogo width={140} />
       </div>
 

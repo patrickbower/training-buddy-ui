@@ -72,7 +72,6 @@ export function VerifyPage() {
               setCode(val)
               setError(null)
             }}
-            onComplete={(val: string) => void handleComplete(val)}
           >
             <InputOTP.Group>
               <InputOTP.Slot index={0} />

@@ -11,7 +11,7 @@ export function ChatCard({ card, onCtaPress }: ChatCardProps) {
   const navigate = useNavigate()
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 flex flex-col gap-3">
+    <div className="rounded-xl border border-green-400 bg-green-50 p-4 mt-6 flex flex-col gap-3">
       <p className="text-sm font-semibold text-zinc-900">{card.title}</p>
       <p className="text-sm text-zinc-500">{card.body}</p>
       {card.cta && (
