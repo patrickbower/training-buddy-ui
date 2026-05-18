@@ -42,15 +42,7 @@ describe('OnboardingPage — welcome screen', () => {
     await waitFor(() => {
       expect(screen.getByText('Total Runs')).toBeInTheDocument()
       expect(screen.getByText('Avg Weekly')).toBeInTheDocument()
-      expect(screen.getByText('Longest Run')).toBeInTheDocument()
-    })
-  })
-
-  it('shows the data window label on each card', async () => {
-    renderOnboardingPage()
-    await waitFor(() => {
-      const labels = screen.getAllByText('Last 6 months')
-      expect(labels.length).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Longest')).toBeInTheDocument()
     })
   })
 

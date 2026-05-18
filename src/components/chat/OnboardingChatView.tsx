@@ -8,6 +8,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useConversation } from '@/hooks/useConversation'
 import { ChatMessage } from './ChatMessage'
 import { ChatInput } from './ChatInput'
+import { TrainingBuddyLogo } from '@/components/shared/TrainingBuddyLogo'
 
 export function OnboardingChatView() {
   const { messages, sendMessage, isPending } = useConversation()
@@ -24,11 +25,10 @@ export function OnboardingChatView() {
     }
   }, [hasSynthesis, onboardingCompletedAt, completeOnboarding])
 
-  const handleSynthesisCtaPress = useCallback(() => {
-    void api.conversation.create().then((conv) => {
-      void queryClient.resetQueries({ queryKey: queryKeys.conversation() })
-      void navigate({ to: '/chat/$conversationId', params: { conversationId: conv.id } })
-    })
+  const handleSynthesisCtaPress = useCallback(async () => {
+    const conv = await api.conversation.create()
+    void queryClient.resetQueries({ queryKey: queryKeys.conversation() })
+    await navigate({ to: '/chat/$conversationId', params: { conversationId: conv.id } })
   }, [navigate, queryClient])
 
   useEffect(() => {
@@ -38,7 +38,10 @@ export function OnboardingChatView() {
   const lastIdx = messages.length - 1
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="relative flex flex-col h-screen overflow-y-auto">
+      <div className="absolute top-5 left-5">
+        <TrainingBuddyLogo width={140} />
+      </div>
       <ol
         role="log"
         aria-label="Conversation"
@@ -58,7 +61,11 @@ export function OnboardingChatView() {
                 message={message}
                 onQuickReply={idx === lastIdx ? sendMessage : undefined}
                 onCardCtaPress={
-                  message.onboardingStep?.complete ? handleSynthesisCtaPress : undefined
+                  message.onboardingStep?.complete
+                    ? () => {
+                        void handleSynthesisCtaPress()
+                      }
+                    : undefined
                 }
               />
             </li>
