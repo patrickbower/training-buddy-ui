@@ -7,23 +7,22 @@ export function AuthLayout() {
   return (
     <div className="flex h-screen">
       {/* Left panel */}
-      <div className="flex h-full w-full flex-col bg-white md:w-1/2">
-        <div className="flex flex-1 h-full items-center justify-center px-6">
-          <div className="w-full max-w-xs">
-            <div className="mb-8 flex justify-center">
-              <TrainingBuddyLogo width={260} />
-            </div>
+      <div className="flex h-full w-full flex-col bg-white md:w-1/2 items-center py-5">
+        <div className="max-w-xs flex flex-col gap-4 h-full">
+          <div className="flex-1 flex items-center justify-center">
+            <TrainingBuddyLogo width={260} />
+          </div>
+          <div className="flex-1">
             <Outlet />
           </div>
-        </div>
-
-        <div className="flex justify-center gap-5 p-5">
-          <Link href="#" className="text-sm font-medium text-zinc-500 no-underline">
-            Terms of service
-          </Link>
-          <Link href="#" className="text-sm font-medium text-zinc-500 no-underline">
-            Privacy policy
-          </Link>
+          <div className="flex-1 flex items-end justify-center gap-16">
+            <Link href="#" className="text-sm text-zinc-500 no-underline">
+              Terms of service
+            </Link>
+            <Link href="#" className="text-sm text-zinc-500 no-underline">
+              Privacy policy
+            </Link>
+          </div>
         </div>
       </div>
 

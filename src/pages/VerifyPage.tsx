@@ -64,7 +64,7 @@ export function VerifyPage() {
             autoFocus
             maxLength={6}
             pattern={REGEXP_ONLY_DIGITS}
-            variant="primary"
+            variant="secondary"
             value={code}
             isInvalid={!!error}
             isDisabled={isSubmitting}
@@ -94,15 +94,13 @@ export function VerifyPage() {
           {resent ? (
             <span className="font-medium text-zinc-900">Code resent</span>
           ) : (
-            <Button
+            <button
               type="button"
-              variant="ghost"
-              size="sm"
-              onPress={handleResend}
-              className="h-auto min-h-0 p-0 font-medium text-zinc-900 underline"
+              onClick={handleResend}
+              className="font-medium text-zinc-900 hover:cursor-pointer"
             >
               Resend
-            </Button>
+            </button>
           )}
         </div>
       </div>
@@ -116,7 +114,7 @@ export function VerifyPage() {
         Connect Strava
       </Button>
 
-      <div className="flex items-start gap-3 pt-1">
+      <div className="flex gap-3 pt-1">
         <StravaLogo />
         <p className="text-xs text-zinc-500">
           Training Buddy connects to Strava. We&apos;ll never see or store your login details.
