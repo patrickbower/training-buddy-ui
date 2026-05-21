@@ -9,8 +9,6 @@ import type { Conversation, CoachMessage } from '@/types/domain'
 
 let conversation: Conversation = { ...seedConversation, messages: [...seedConversation.messages] }
 
-const TOTAL_STEPS = TOTAL_ONBOARDING_STEPS
-
 let responseIndex = 0
 let nextCoachResponse: string | null = null
 
@@ -74,8 +72,8 @@ export const conversationHandlers = [
       coachQuickReplies = step.quickReplies
       coachCard = step.card
       coachOnboardingStep = step.complete
-        ? { index: TOTAL_STEPS, total: TOTAL_STEPS, complete: true }
-        : { index: responseIndex + 2, total: TOTAL_STEPS }
+        ? { index: TOTAL_ONBOARDING_STEPS, total: TOTAL_ONBOARDING_STEPS, complete: true }
+        : { index: responseIndex + 2, total: TOTAL_ONBOARDING_STEPS }
       responseIndex++
     } else {
       coachContent =
