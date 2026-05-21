@@ -57,14 +57,7 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
                   Your preferences (e.g. km or miles) come from Strava and cannot be changed here.
                 </Alert.Description>
               </Alert.Content>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="shrink-0"
-                onPress={() => {
-                  console.log('strava')
-                }}
-              >
+              <Button size="sm" variant="ghost" className="shrink-0" isDisabled>
                 Strava
               </Button>
             </Alert>
@@ -82,9 +75,7 @@ export function SettingsModal({ isOpen, onClose, athlete }: SettingsModalProps) 
                 size="sm"
                 variant="ghost"
                 className="shrink-0 hover:bg-red-500 hover:text-white"
-                onPress={() => {
-                  console.log('delete')
-                }}
+                isDisabled
               >
                 Delete
               </Button>

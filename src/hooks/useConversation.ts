@@ -3,6 +3,19 @@ import { api } from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
 import type { CoachMessage, Conversation } from '@/types/domain'
 
+export function buildOptimisticMessage(content: string, conversationId: string): CoachMessage {
+  return {
+    id: `optimistic_${String(Date.now())}`,
+    conversationId,
+    role: 'athlete',
+    content,
+    quickReplies: null,
+    onboardingStep: null,
+    card: null,
+    createdAt: new Date().toISOString(),
+  }
+}
+
 export interface UseConversationResult {
   messages: CoachMessage[]
   sendMessage: (content: string) => void
@@ -24,17 +37,7 @@ export function useConversation(): UseConversationResult {
       await queryClient.cancelQueries({ queryKey: queryKeys.conversation() })
 
       const snapshot = queryClient.getQueryData<Conversation>(queryKeys.conversation())
-
-      const optimisticMessage: CoachMessage = {
-        id: `optimistic_${String(Date.now())}`,
-        conversationId: snapshot?.id ?? '',
-        role: 'athlete',
-        content,
-        quickReplies: null,
-        onboardingStep: null,
-        card: null,
-        createdAt: new Date().toISOString(),
-      }
+      const optimisticMessage = buildOptimisticMessage(content, snapshot?.id ?? '')
 
       queryClient.setQueryData<Conversation>(queryKeys.conversation(), (prev) => {
         if (!prev) return prev

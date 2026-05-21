@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useRouterState } from '@tanstack/react-router'
 import { Button, ErrorMessage, InputOTP, REGEXP_ONLY_DIGITS } from '@heroui/react'
 import { useAuthStore } from '@/stores/authStore'
+import { isOnboardingRequired } from '@/hooks/useOnboardingState'
 import { StravaLogo } from '@/components/shared/StravaLogo'
 
 export function VerifyPage() {
@@ -36,8 +37,7 @@ export function VerifyPage() {
       }
 
       login(email)
-      const { onboardingCompletedAt } = useAuthStore.getState()
-      await navigate({ to: onboardingCompletedAt ? '/' : '/onboarding' })
+      await navigate({ to: isOnboardingRequired() ? '/onboarding' : '/' })
     } catch {
       setError('Something went wrong. Please try again.')
       setCode('')

@@ -13,6 +13,7 @@ interface ProfileFooterProps {
 export function ProfileFooter({ athlete }: ProfileFooterProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [profileKey, setProfileKey] = useState(0)
   const logout = useAuthStore((s) => s.logout)
   const navigate = useNavigate()
 
@@ -20,6 +21,7 @@ export function ProfileFooter({ athlete }: ProfileFooterProps) {
     if (key === 'settings') {
       setIsSettingsOpen(true)
     } else if (key === 'profile') {
+      setProfileKey((k) => k + 1)
       setIsProfileOpen(true)
     } else if (key === 'logout') {
       logout()
@@ -60,6 +62,7 @@ export function ProfileFooter({ athlete }: ProfileFooterProps) {
         athlete={athlete}
       />
       <ProfileModal
+        key={profileKey}
         isOpen={isProfileOpen}
         onClose={() => {
           setIsProfileOpen(false)

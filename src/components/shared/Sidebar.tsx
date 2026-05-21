@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { TrainingBuddyLogo } from './TrainingBuddyLogo'
 import { ProfileFooter } from '@/components/athlete/ProfileFooter'
-import { seedAthlete } from '@/mocks/data/athlete'
+import { useAthlete } from '@/hooks/useAthlete'
 import { api } from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
 import { useAuthStore } from '@/stores/authStore'
@@ -20,6 +20,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const onboardingCompletedAt = useAuthStore((s) => s.onboardingCompletedAt)
+  const { athlete } = useAthlete()
 
   const { data: conversation } = useQuery({
     queryKey: queryKeys.conversation(),
@@ -101,7 +102,7 @@ export function Sidebar({ onMenuToggle }: SidebarProps) {
       </div>
 
       {/* Profile footer */}
-      <ProfileFooter athlete={seedAthlete} />
+      {athlete && <ProfileFooter athlete={athlete} />}
     </div>
   )
 }
