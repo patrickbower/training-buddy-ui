@@ -54,4 +54,14 @@ describe('SettingsModal', () => {
 
     expect(screen.queryByText('Settings')).not.toBeInTheDocument()
   })
+
+  it('Strava button is disabled', () => {
+    renderWithProviders(<SettingsModal isOpen={true} onClose={vi.fn()} athlete={seedAthlete} />)
+    expect(screen.getByRole('button', { name: /strava/i })).toBeDisabled()
+  })
+
+  it('Delete button is disabled', () => {
+    renderWithProviders(<SettingsModal isOpen={true} onClose={vi.fn()} athlete={seedAthlete} />)
+    expect(screen.getByRole('button', { name: /delete/i })).toBeDisabled()
+  })
 })

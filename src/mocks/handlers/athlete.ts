@@ -6,10 +6,6 @@ import type { Athlete, AthleteProfile } from '@/types/domain'
 // Set to a date when PATCH /api/athlete/profile is called (onboarding complete).
 let mockAthlete: Athlete = { ...seedAthlete, onboardingCompletedAt: null }
 
-export function setOnboardingComplete() {
-  mockAthlete = { ...mockAthlete, onboardingCompletedAt: new Date().toISOString() }
-}
-
 export const athleteHandlers = [
   http.get('/api/athlete', () => {
     return HttpResponse.json(mockAthlete)

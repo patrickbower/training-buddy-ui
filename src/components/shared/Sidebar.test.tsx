@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Sidebar } from './Sidebar'
 import { useAuthStore } from '@/stores/authStore'
 import { queryKeys } from '@/lib/queryKeys'
+import { seedAthlete } from '@/mocks/data/athlete'
 import type { Conversation } from '@/types/domain'
 
 const coachingConversation: Conversation = {
@@ -36,9 +37,14 @@ const coachingConversation: Conversation = {
 interface RenderOptions {
   path?: string
   conversation?: Conversation
+  withAthlete?: boolean
 }
 
-function renderSidebar({ path = '/chat/conv_01', conversation }: RenderOptions = {}) {
+function renderSidebar({
+  path = '/chat/conv_01',
+  conversation,
+  withAthlete = false,
+}: RenderOptions = {}) {
   const rootRoute = createRootRoute()
   const sidebarRoute = createRoute({
     getParentRoute: () => rootRoute,
@@ -52,6 +58,9 @@ function renderSidebar({ path = '/chat/conv_01', conversation }: RenderOptions =
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
   if (conversation) {
     queryClient.setQueryData(queryKeys.conversation(), conversation)
+  }
+  if (withAthlete) {
+    queryClient.setQueryData(queryKeys.athlete(), seedAthlete)
   }
   return render(
     <QueryClientProvider client={queryClient}>
@@ -101,5 +110,16 @@ describe('Sidebar', () => {
     renderSidebar({ path: '/plan', conversation: coachingConversation })
     await screen.findByRole('option')
     expect(screen.queryByRole('option', { selected: true })).toBeNull()
+  })
+
+  it('renders ProfileFooter with real athlete data from query', async () => {
+    renderSidebar({ withAthlete: true })
+    expect(await screen.findByText(seedAthlete.email)).toBeInTheDocument()
+  })
+
+  it('does not render ProfileFooter while athlete data is loading', async () => {
+    renderSidebar({ withAthlete: false })
+    await screen.findByRole('button', { name: /new/i })
+    expect(screen.queryByText(seedAthlete.email)).toBeNull()
   })
 })

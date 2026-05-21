@@ -3,7 +3,7 @@ import { renderHook, waitFor } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { http, HttpResponse } from 'msw'
 import { server } from '@/mocks/server'
-import { useConversation } from './useConversation'
+import { useConversation, buildOptimisticMessage } from './useConversation'
 import { useAuthStore } from '@/stores/authStore'
 import { seedAthlete } from '@/mocks/data/athlete'
 
@@ -15,6 +15,33 @@ function createWrapper() {
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   )
 }
+
+describe('buildOptimisticMessage', () => {
+  it('returns a CoachMessage with role athlete and correct content', () => {
+    const msg = buildOptimisticMessage('Hello coach', 'conv_01')
+    expect(msg.role).toBe('athlete')
+    expect(msg.content).toBe('Hello coach')
+    expect(msg.conversationId).toBe('conv_01')
+  })
+
+  it('id starts with optimistic_', () => {
+    const msg = buildOptimisticMessage('test', 'conv_01')
+    expect(msg.id.startsWith('optimistic_')).toBe(true)
+  })
+
+  it('quickReplies, onboardingStep, and card are null', () => {
+    const msg = buildOptimisticMessage('test', 'conv_01')
+    expect(msg.quickReplies).toBeNull()
+    expect(msg.onboardingStep).toBeNull()
+    expect(msg.card).toBeNull()
+  })
+
+  it('createdAt is a valid ISO string', () => {
+    const msg = buildOptimisticMessage('test', 'conv_01')
+    expect(() => new Date(msg.createdAt)).not.toThrow()
+    expect(new Date(msg.createdAt).toISOString()).toBe(msg.createdAt)
+  })
+})
 
 describe('useConversation — pure data hook', () => {
   beforeEach(() => {
