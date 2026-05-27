@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { toast } from '@/lib/toast'
 
 interface AuthState {
   isAuthenticated: boolean
@@ -21,6 +22,7 @@ export const useAuthStore = create<AuthState>()(
       },
       logout: () => {
         set({ isAuthenticated: false, email: null, onboardingCompletedAt: null })
+        toast.info("You've been signed out")
       },
       completeOnboarding: (completedAt) => {
         set({ onboardingCompletedAt: completedAt })
